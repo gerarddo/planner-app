@@ -4,11 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto';
-
+import {ExpensesContextProvider} from './store/expenses-context'
+import {EntriesContextProvider} from './store/entries-context'
+import {DrawerContextProvider} from './store/drawer-context'
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <DrawerContextProvider>
+    <ExpensesContextProvider>
+      <EntriesContextProvider>
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+      </EntriesContextProvider>
+    </ExpensesContextProvider>
+  </DrawerContextProvider>,
   document.getElementById('root')
 );
 

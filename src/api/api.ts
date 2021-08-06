@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * planner
- * planner
+ * planner-api
+ * API for planner project
  *
  * The version of the OpenAPI document: 0.0.1
  * 
@@ -59,16 +59,16 @@ export interface IEntry {
     method: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IEntry
      */
-    inflow: string;
+    inflow: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IEntry
      */
-    outflow: string;
+    outflow: number;
 }
 /**
  * 
@@ -106,6 +106,12 @@ export interface IEntryFilter {
      * @memberof IEntryFilter
      */
     fields?: object | Set<string>;
+    /**
+     * 
+     * @type {Array<IEntryIncludeFilterItems | string>}
+     * @memberof IEntryFilter
+     */
+    include?: Array<IEntryIncludeFilterItems | string>;
 }
 /**
  * 
@@ -149,6 +155,31 @@ export interface IEntryFilter1 {
      * @memberof IEntryFilter1
      */
     fields?: object | Set<string>;
+    /**
+     * 
+     * @type {Array<IEntryIncludeFilterItems | string>}
+     * @memberof IEntryFilter1
+     */
+    include?: Array<IEntryIncludeFilterItems | string>;
+}
+/**
+ * 
+ * @export
+ * @interface IEntryIncludeFilterItems
+ */
+export interface IEntryIncludeFilterItems {
+    /**
+     * 
+     * @type {string}
+     * @memberof IEntryIncludeFilterItems
+     */
+    relation?: string;
+    /**
+     * 
+     * @type {IEntryScopeFilter}
+     * @memberof IEntryIncludeFilterItems
+     */
+    scope?: IEntryScopeFilter;
 }
 /**
  * (tsType: Partial<Entry>, schemaOptions: { partial: true })
@@ -188,16 +219,65 @@ export interface IEntryPartial {
     method?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IEntryPartial
      */
-    inflow?: string;
+    inflow?: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IEntryPartial
      */
-    outflow?: string;
+    outflow?: number;
+}
+/**
+ * 
+ * @export
+ * @interface IEntryScopeFilter
+ */
+export interface IEntryScopeFilter {
+    /**
+     * 
+     * @type {number}
+     * @memberof IEntryScopeFilter
+     */
+    offset?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof IEntryScopeFilter
+     */
+    limit?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof IEntryScopeFilter
+     */
+    skip?: number;
+    /**
+     * 
+     * @type {string | Array<string>}
+     * @memberof IEntryScopeFilter
+     */
+    order?: string | Array<string>;
+    /**
+     * 
+     * @type {{ [key: string]: object; }}
+     * @memberof IEntryScopeFilter
+     */
+    where?: { [key: string]: object; };
+    /**
+     * 
+     * @type {any | Set<string>}
+     * @memberof IEntryScopeFilter
+     */
+    fields?: any | Set<string>;
+    /**
+     * 
+     * @type {Array<{ [key: string]: object; }>}
+     * @memberof IEntryScopeFilter
+     */
+    include?: Array<{ [key: string]: object; }>;
 }
 /**
  * (tsType: EntryWithRelations, schemaOptions: { includeRelations: true })
@@ -237,16 +317,22 @@ export interface IEntryWithRelations {
     method: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IEntryWithRelations
      */
-    inflow: string;
+    inflow: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IEntryWithRelations
      */
-    outflow: string;
+    outflow: number;
+    /**
+     * 
+     * @type {Array<IExpenseWithRelations>}
+     * @memberof IEntryWithRelations
+     */
+    expenses?: Array<IExpenseWithRelations>;
 }
 /**
  * 
@@ -286,16 +372,22 @@ export interface IExpense {
     method: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IExpense
      */
-    inflow: string;
+    inflow: number;
     /**
      * 
      * @type {string}
      * @memberof IExpense
      */
-    outflow: string;
+    entryId?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof IExpense
+     */
+    outflow: number;
 }
 /**
  * 
@@ -446,16 +538,22 @@ export interface IExpensePartial {
     method?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IExpensePartial
      */
-    inflow?: string;
+    inflow?: number;
     /**
      * 
      * @type {string}
      * @memberof IExpensePartial
      */
-    outflow?: string;
+    entryId?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof IExpensePartial
+     */
+    outflow?: number;
 }
 /**
  * 
@@ -544,16 +642,22 @@ export interface IExpenseWithRelations {
     method: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof IExpenseWithRelations
      */
-    inflow: string;
+    inflow: number;
     /**
      * 
      * @type {string}
      * @memberof IExpenseWithRelations
      */
-    outflow: string;
+    entryId?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof IExpenseWithRelations
+     */
+    outflow: number;
     /**
      * 
      * @type {IEntryWithRelations}
@@ -606,16 +710,16 @@ export interface INewEntry {
     method: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof INewEntry
      */
-    inflow: string;
+    inflow: number;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof INewEntry
      */
-    outflow: string;
+    outflow: number;
 }
 /**
  * (tsType: Omit<Expense, \'id\'>, schemaOptions: { title: \'NewExpense\', exclude: [ \'id\' ] })
@@ -649,16 +753,71 @@ export interface INewExpense {
     method: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof INewExpense
      */
-    inflow: string;
+    inflow: number;
     /**
      * 
      * @type {string}
      * @memberof INewExpense
      */
-    outflow: string;
+    entryId?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof INewExpense
+     */
+    outflow: number;
+}
+/**
+ * (tsType: @loopback/repository-json-schema#Optional<Omit<Expense, \'id\'>, \'entryId\'>, schemaOptions: { title: \'NewExpenseInEntry\', exclude: [ \'id\' ], optional: [ \'entryId\' ] })
+ * @export
+ * @interface INewExpenseInEntry
+ */
+export interface INewExpenseInEntry {
+    /**
+     * 
+     * @type {string}
+     * @memberof INewExpenseInEntry
+     */
+    ymd: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof INewExpenseInEntry
+     */
+    description: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof INewExpenseInEntry
+     */
+    tags: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof INewExpenseInEntry
+     */
+    method: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof INewExpenseInEntry
+     */
+    inflow: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof INewExpenseInEntry
+     */
+    entryId?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof INewExpenseInEntry
+     */
+    outflow: number;
 }
 /**
  * 
@@ -800,11 +959,13 @@ export const EntryControllerApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
+         * @param {number} [month] 
+         * @param {number} [year] 
          * @param {IEntryFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        entryControllerFind: async (filter?: IEntryFilter1, options: any = {}): Promise<RequestArgs> => {
+        entryControllerFind: async (month?: number, year?: number, filter?: IEntryFilter1, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/entries`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -816,6 +977,14 @@ export const EntryControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (month !== undefined) {
+                localVarQueryParameter['month'] = month;
+            }
+
+            if (year !== undefined) {
+                localVarQueryParameter['year'] = year;
+            }
 
             if (filter !== undefined) {
                 localVarQueryParameter['filter'] = filter;
@@ -835,11 +1004,12 @@ export const EntryControllerApiAxiosParamCreator = function (configuration?: Con
         /**
          * 
          * @param {string} id 
+         * @param {boolean} [flat] 
          * @param {IEntryFilter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        entryControllerFindById: async (id: string, filter?: IEntryFilter, options: any = {}): Promise<RequestArgs> => {
+        entryControllerFindById: async (id: string, flat?: boolean, filter?: IEntryFilter, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('entryControllerFindById', 'id', id)
             const localVarPath = `/entries/{id}`
@@ -854,6 +1024,10 @@ export const EntryControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (flat !== undefined) {
+                localVarQueryParameter['flat'] = flat;
+            }
 
             if (filter !== undefined) {
                 localVarQueryParameter['filter'] = filter;
@@ -1024,23 +1198,26 @@ export const EntryControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [month] 
+         * @param {number} [year] 
          * @param {IEntryFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async entryControllerFind(filter?: IEntryFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IEntryWithRelations>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerFind(filter, options);
+        async entryControllerFind(month?: number, year?: number, filter?: IEntryFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IEntryWithRelations>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerFind(month, year, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @param {string} id 
+         * @param {boolean} [flat] 
          * @param {IEntryFilter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async entryControllerFindById(id: string, filter?: IEntryFilter, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IEntryWithRelations>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerFindById(id, filter, options);
+        async entryControllerFindById(id: string, flat?: boolean, filter?: IEntryFilter, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IEntryWithRelations>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerFindById(id, flat, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1115,22 +1292,25 @@ export const EntryControllerApiFactory = function (configuration?: Configuration
         },
         /**
          * 
+         * @param {number} [month] 
+         * @param {number} [year] 
          * @param {IEntryFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        entryControllerFind(filter?: IEntryFilter1, options?: any): AxiosPromise<Array<IEntryWithRelations>> {
-            return localVarFp.entryControllerFind(filter, options).then((request) => request(axios, basePath));
+        entryControllerFind(month?: number, year?: number, filter?: IEntryFilter1, options?: any): AxiosPromise<Array<IEntryWithRelations>> {
+            return localVarFp.entryControllerFind(month, year, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {string} id 
+         * @param {boolean} [flat] 
          * @param {IEntryFilter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        entryControllerFindById(id: string, filter?: IEntryFilter, options?: any): AxiosPromise<IEntryWithRelations> {
-            return localVarFp.entryControllerFindById(id, filter, options).then((request) => request(axios, basePath));
+        entryControllerFindById(id: string, flat?: boolean, filter?: IEntryFilter, options?: any): AxiosPromise<IEntryWithRelations> {
+            return localVarFp.entryControllerFindById(id, flat, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1207,25 +1387,28 @@ export class EntryControllerApi extends BaseAPI {
 
     /**
      * 
+     * @param {number} [month] 
+     * @param {number} [year] 
      * @param {IEntryFilter1} [filter] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EntryControllerApi
      */
-    public entryControllerFind(filter?: IEntryFilter1, options?: any) {
-        return EntryControllerApiFp(this.configuration).entryControllerFind(filter, options).then((request) => request(this.axios, this.basePath));
+    public entryControllerFind(month?: number, year?: number, filter?: IEntryFilter1, options?: any) {
+        return EntryControllerApiFp(this.configuration).entryControllerFind(month, year, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {string} id 
+     * @param {boolean} [flat] 
      * @param {IEntryFilter} [filter] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EntryControllerApi
      */
-    public entryControllerFindById(id: string, filter?: IEntryFilter, options?: any) {
-        return EntryControllerApiFp(this.configuration).entryControllerFindById(id, filter, options).then((request) => request(this.axios, this.basePath));
+    public entryControllerFindById(id: string, flat?: boolean, filter?: IEntryFilter, options?: any) {
+        return EntryControllerApiFp(this.configuration).entryControllerFindById(id, flat, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1262,6 +1445,334 @@ export class EntryControllerApi extends BaseAPI {
      */
     public entryControllerUpdateById(id: string, iEntryPartial?: IEntryPartial, options?: any) {
         return EntryControllerApiFp(this.configuration).entryControllerUpdateById(id, iEntryPartial, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * EntryExpenseControllerApi - axios parameter creator
+ * @export
+ */
+export const EntryExpenseControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {INewExpenseInEntry} [iNewExpenseInEntry] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerCreate: async (id: string, iNewExpenseInEntry?: INewExpenseInEntry, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('entryExpenseControllerCreate', 'id', id)
+            const localVarPath = `/entries/{id}/expenses`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(iNewExpenseInEntry, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [where] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerDelete: async (id: string, where?: { [key: string]: object; }, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('entryExpenseControllerDelete', 'id', id)
+            const localVarPath = `/entries/{id}/expenses`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (where !== undefined) {
+                localVarQueryParameter['where'] = where;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerFind: async (id: string, filter?: { [key: string]: object; }, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('entryExpenseControllerFind', 'id', id)
+            const localVarPath = `/entries/{id}/expenses`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [where] 
+         * @param {IExpensePartial} [iExpensePartial] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerPatch: async (id: string, where?: { [key: string]: object; }, iExpensePartial?: IExpensePartial, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('entryExpenseControllerPatch', 'id', id)
+            const localVarPath = `/entries/{id}/expenses`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (where !== undefined) {
+                localVarQueryParameter['where'] = where;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(iExpensePartial, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * EntryExpenseControllerApi - functional programming interface
+ * @export
+ */
+export const EntryExpenseControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = EntryExpenseControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {INewExpenseInEntry} [iNewExpenseInEntry] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async entryExpenseControllerCreate(id: string, iNewExpenseInEntry?: INewExpenseInEntry, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IExpense>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryExpenseControllerCreate(id, iNewExpenseInEntry, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [where] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async entryExpenseControllerDelete(id: string, where?: { [key: string]: object; }, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ILoopbackCount>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryExpenseControllerDelete(id, where, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async entryExpenseControllerFind(id: string, filter?: { [key: string]: object; }, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpense>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryExpenseControllerFind(id, filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [where] 
+         * @param {IExpensePartial} [iExpensePartial] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async entryExpenseControllerPatch(id: string, where?: { [key: string]: object; }, iExpensePartial?: IExpensePartial, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ILoopbackCount>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryExpenseControllerPatch(id, where, iExpensePartial, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * EntryExpenseControllerApi - factory interface
+ * @export
+ */
+export const EntryExpenseControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = EntryExpenseControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {INewExpenseInEntry} [iNewExpenseInEntry] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerCreate(id: string, iNewExpenseInEntry?: INewExpenseInEntry, options?: any): AxiosPromise<IExpense> {
+            return localVarFp.entryExpenseControllerCreate(id, iNewExpenseInEntry, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [where] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerDelete(id: string, where?: { [key: string]: object; }, options?: any): AxiosPromise<ILoopbackCount> {
+            return localVarFp.entryExpenseControllerDelete(id, where, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerFind(id: string, filter?: { [key: string]: object; }, options?: any): AxiosPromise<Array<IExpense>> {
+            return localVarFp.entryExpenseControllerFind(id, filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {{ [key: string]: object; }} [where] 
+         * @param {IExpensePartial} [iExpensePartial] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerPatch(id: string, where?: { [key: string]: object; }, iExpensePartial?: IExpensePartial, options?: any): AxiosPromise<ILoopbackCount> {
+            return localVarFp.entryExpenseControllerPatch(id, where, iExpensePartial, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * EntryExpenseControllerApi - object-oriented interface
+ * @export
+ * @class EntryExpenseControllerApi
+ * @extends {BaseAPI}
+ */
+export class EntryExpenseControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} id 
+     * @param {INewExpenseInEntry} [iNewExpenseInEntry] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EntryExpenseControllerApi
+     */
+    public entryExpenseControllerCreate(id: string, iNewExpenseInEntry?: INewExpenseInEntry, options?: any) {
+        return EntryExpenseControllerApiFp(this.configuration).entryExpenseControllerCreate(id, iNewExpenseInEntry, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {{ [key: string]: object; }} [where] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EntryExpenseControllerApi
+     */
+    public entryExpenseControllerDelete(id: string, where?: { [key: string]: object; }, options?: any) {
+        return EntryExpenseControllerApiFp(this.configuration).entryExpenseControllerDelete(id, where, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {{ [key: string]: object; }} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EntryExpenseControllerApi
+     */
+    public entryExpenseControllerFind(id: string, filter?: { [key: string]: object; }, options?: any) {
+        return EntryExpenseControllerApiFp(this.configuration).entryExpenseControllerFind(id, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {{ [key: string]: object; }} [where] 
+     * @param {IExpensePartial} [iExpensePartial] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EntryExpenseControllerApi
+     */
+    public entryExpenseControllerPatch(id: string, where?: { [key: string]: object; }, iExpensePartial?: IExpensePartial, options?: any) {
+        return EntryExpenseControllerApiFp(this.configuration).entryExpenseControllerPatch(id, where, iExpensePartial, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1374,11 +1885,12 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
         },
         /**
          * 
+         * @param {boolean} [flat] 
          * @param {IExpenseFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        expenseControllerFind: async (filter?: IExpenseFilter1, options: any = {}): Promise<RequestArgs> => {
+        expenseControllerFind: async (flat?: boolean, filter?: IExpenseFilter1, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/expenses`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1390,6 +1902,10 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (flat !== undefined) {
+                localVarQueryParameter['flat'] = flat;
+            }
 
             if (filter !== undefined) {
                 localVarQueryParameter['filter'] = filter;
@@ -1428,6 +1944,50 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [month] 
+         * @param {number} [year] 
+         * @param {IExpenseFilter1} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerFindUnassigned: async (month?: number, year?: number, filter?: IExpenseFilter1, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/expenses-unassigned`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (month !== undefined) {
+                localVarQueryParameter['month'] = month;
+            }
+
+            if (year !== undefined) {
+                localVarQueryParameter['year'] = year;
+            }
 
             if (filter !== undefined) {
                 localVarQueryParameter['filter'] = filter;
@@ -1598,12 +2158,13 @@ export const ExpenseControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {boolean} [flat] 
          * @param {IExpenseFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async expenseControllerFind(filter?: IExpenseFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpenseWithRelations>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFind(filter, options);
+        async expenseControllerFind(flat?: boolean, filter?: IExpenseFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpenseWithRelations>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFind(flat, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1615,6 +2176,18 @@ export const ExpenseControllerApiFp = function(configuration?: Configuration) {
          */
         async expenseControllerFindById(id: string, filter?: IExpenseFilter, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IExpenseWithRelations>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFindById(id, filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} [month] 
+         * @param {number} [year] 
+         * @param {IExpenseFilter1} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async expenseControllerFindUnassigned(month?: number, year?: number, filter?: IExpenseFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpense>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFindUnassigned(month, year, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1689,12 +2262,13 @@ export const ExpenseControllerApiFactory = function (configuration?: Configurati
         },
         /**
          * 
+         * @param {boolean} [flat] 
          * @param {IExpenseFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        expenseControllerFind(filter?: IExpenseFilter1, options?: any): AxiosPromise<Array<IExpenseWithRelations>> {
-            return localVarFp.expenseControllerFind(filter, options).then((request) => request(axios, basePath));
+        expenseControllerFind(flat?: boolean, filter?: IExpenseFilter1, options?: any): AxiosPromise<Array<IExpenseWithRelations>> {
+            return localVarFp.expenseControllerFind(flat, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1705,6 +2279,17 @@ export const ExpenseControllerApiFactory = function (configuration?: Configurati
          */
         expenseControllerFindById(id: string, filter?: IExpenseFilter, options?: any): AxiosPromise<IExpenseWithRelations> {
             return localVarFp.expenseControllerFindById(id, filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [month] 
+         * @param {number} [year] 
+         * @param {IExpenseFilter1} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerFindUnassigned(month?: number, year?: number, filter?: IExpenseFilter1, options?: any): AxiosPromise<Array<IExpense>> {
+            return localVarFp.expenseControllerFindUnassigned(month, year, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1781,13 +2366,14 @@ export class ExpenseControllerApi extends BaseAPI {
 
     /**
      * 
+     * @param {boolean} [flat] 
      * @param {IExpenseFilter1} [filter] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ExpenseControllerApi
      */
-    public expenseControllerFind(filter?: IExpenseFilter1, options?: any) {
-        return ExpenseControllerApiFp(this.configuration).expenseControllerFind(filter, options).then((request) => request(this.axios, this.basePath));
+    public expenseControllerFind(flat?: boolean, filter?: IExpenseFilter1, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerFind(flat, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1800,6 +2386,19 @@ export class ExpenseControllerApi extends BaseAPI {
      */
     public expenseControllerFindById(id: string, filter?: IExpenseFilter, options?: any) {
         return ExpenseControllerApiFp(this.configuration).expenseControllerFindById(id, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [month] 
+     * @param {number} [year] 
+     * @param {IExpenseFilter1} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpenseControllerApi
+     */
+    public expenseControllerFindUnassigned(month?: number, year?: number, filter?: IExpenseFilter1, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerFindUnassigned(month, year, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1836,6 +2435,107 @@ export class ExpenseControllerApi extends BaseAPI {
      */
     public expenseControllerUpdateById(id: string, iExpensePartial?: IExpensePartial, options?: any) {
         return ExpenseControllerApiFp(this.configuration).expenseControllerUpdateById(id, iExpensePartial, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * ExpenseEntryControllerApi - axios parameter creator
+ * @export
+ */
+export const ExpenseEntryControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseEntryControllerGetEntry: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('expenseEntryControllerGetEntry', 'id', id)
+            const localVarPath = `/expenses/{id}/entry`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ExpenseEntryControllerApi - functional programming interface
+ * @export
+ */
+export const ExpenseEntryControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ExpenseEntryControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async expenseEntryControllerGetEntry(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IEntry>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseEntryControllerGetEntry(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ExpenseEntryControllerApi - factory interface
+ * @export
+ */
+export const ExpenseEntryControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ExpenseEntryControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseEntryControllerGetEntry(id: string, options?: any): AxiosPromise<Array<IEntry>> {
+            return localVarFp.expenseEntryControllerGetEntry(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ExpenseEntryControllerApi - object-oriented interface
+ * @export
+ * @class ExpenseEntryControllerApi
+ * @extends {BaseAPI}
+ */
+export class ExpenseEntryControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpenseEntryControllerApi
+     */
+    public expenseEntryControllerGetEntry(id: string, options?: any) {
+        return ExpenseEntryControllerApiFp(this.configuration).expenseEntryControllerGetEntry(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

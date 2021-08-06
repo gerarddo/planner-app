@@ -24,7 +24,8 @@ import Deposits from './Deposits';
 import Orders from './Orders';
 
 
-import Expenses from './Linker/Expenses'
+import Expenses from './Linker/ExpensesList/ExpensesList'
+import Linker from './Linker/Linker';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -178,15 +179,15 @@ export default function Dashboard() {
 
 
             {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
+            {/* <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <Deposits />
               </Paper>
-            </Grid>
+            </Grid> */}
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Expenses />
+                <Linker />
               </Paper>
             </Grid>
           </Grid>

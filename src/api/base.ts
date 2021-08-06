@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * planner
- * planner
+ * planner-api
+ * API for planner project
  *
  * The version of the OpenAPI document: 0.0.1
  * 
