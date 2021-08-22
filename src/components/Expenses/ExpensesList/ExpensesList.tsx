@@ -1,38 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from '../../common/Title/Title';
-import TemporaryDrawer from '../../Drawer/Drawer'
-import  ExpensesContext  from '../../../store/expenses-context'
 import { useContext } from 'react';
-import DrawerButton from '../../common/DrawerButton/DrawerButton';
-import DrawerContext from '../../../store/drawer-context';
+import OpenExpenseDetailButton from '../../common/OpenExpenseDetailButton/OpenExpenseDetailButton';
+import ExpensesContext from '../../../store/expenses-context';
 import Divider from '@material-ui/core/Divider';
 
 export default function ExpensesList(props: any) {
 
-  const [loadedExpenses, setLoadedExpenses] = useState([])
+  const [expenses, setExpenses] = useState([])
   const expenseCtx = useContext(ExpensesContext);
-  const drawerCtx = useContext(DrawerContext);
-
-  function setEntries(expense: any){
-    drawerCtx.updateLoadedExpense(expense)
-  }
 
   useEffect(() => {
-    setLoadedExpenses(expenseCtx.expenses)
+    setExpenses(expenseCtx.expenses)
   }, [expenseCtx.expenses]);
 
   function conditionalComponent(){
-    if(loadedExpenses.length == 0){
+    if(expenses.length == 0){
       return(
-      <div>      <Divider variant="middle" />
-      <p>No expenses found.</p></div>
+        <div>      
+          <Divider variant="middle" />
+          <p>No expenses found.</p>
+        </div>
       )
     } else {
       return(
@@ -49,7 +42,7 @@ export default function ExpensesList(props: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {loadedExpenses.map((row: any) => (
+            {expenses.map((row: any) => (
               <TableRow key={row.id}>
                 <TableCell>{row.ymd}</TableCell>
                 <TableCell>{row.description}</TableCell>
@@ -57,7 +50,7 @@ export default function ExpensesList(props: any) {
                 <TableCell align="right">{row.inflow}</TableCell>
                 <TableCell align="right">{row.outflow}</TableCell>
                 <TableCell align="right">
-                  <DrawerButton expense={row}></DrawerButton>
+                  <OpenExpenseDetailButton expense={row} highlighted={row.entryId !== undefined}></OpenExpenseDetailButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -70,7 +63,6 @@ export default function ExpensesList(props: any) {
 
   return (
     <React.Fragment>
-              <Title>My Expenses</Title>
           {conditionalComponent()}
       </React.Fragment>
   );

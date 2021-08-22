@@ -421,6 +421,12 @@ export interface IExpenseFilter {
     order?: string | Array<string>;
     /**
      * 
+     * @type {{ [key: string]: object; }}
+     * @memberof IExpenseFilter
+     */
+    where?: { [key: string]: object; };
+    /**
+     * 
      * @type {object | Set<string>}
      * @memberof IExpenseFilter
      */
@@ -462,12 +468,6 @@ export interface IExpenseFilter1 {
      * @memberof IExpenseFilter1
      */
     order?: string | Array<string>;
-    /**
-     * 
-     * @type {{ [key: string]: object; }}
-     * @memberof IExpenseFilter1
-     */
-    where?: { [key: string]: object; };
     /**
      * 
      * @type {object | Set<string>}
@@ -850,6 +850,100 @@ export interface IPingResponse {
      */
     headers?: { [key: string]: object; };
 }
+
+/**
+ * DataBackupControllerApi - axios parameter creator
+ * @export
+ */
+export const DataBackupControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dataBackupControllerRunDataBackup: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/data-backup`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DataBackupControllerApi - functional programming interface
+ * @export
+ */
+export const DataBackupControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DataBackupControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async dataBackupControllerRunDataBackup(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dataBackupControllerRunDataBackup(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DataBackupControllerApi - factory interface
+ * @export
+ */
+export const DataBackupControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DataBackupControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dataBackupControllerRunDataBackup(options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.dataBackupControllerRunDataBackup(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DataBackupControllerApi - object-oriented interface
+ * @export
+ * @class DataBackupControllerApi
+ * @extends {BaseAPI}
+ */
+export class DataBackupControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DataBackupControllerApi
+     */
+    public dataBackupControllerRunDataBackup(options?: any) {
+        return DataBackupControllerApiFp(this.configuration).dataBackupControllerRunDataBackup(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * EntryControllerApi - axios parameter creator
@@ -1885,12 +1979,13 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
         },
         /**
          * 
-         * @param {boolean} [flat] 
-         * @param {IExpenseFilter1} [filter] 
+         * @param {number} [year] 
+         * @param {number} [month] 
+         * @param {IExpenseFilter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        expenseControllerFind: async (flat?: boolean, filter?: IExpenseFilter1, options: any = {}): Promise<RequestArgs> => {
+        expenseControllerFind: async (year?: number, month?: number, filter?: IExpenseFilter, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/expenses`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1903,8 +1998,12 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (flat !== undefined) {
-                localVarQueryParameter['flat'] = flat;
+            if (year !== undefined) {
+                localVarQueryParameter['year'] = year;
+            }
+
+            if (month !== undefined) {
+                localVarQueryParameter['month'] = month;
             }
 
             if (filter !== undefined) {
@@ -1925,11 +2024,11 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
         /**
          * 
          * @param {string} id 
-         * @param {IExpenseFilter} [filter] 
+         * @param {IExpenseFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        expenseControllerFindById: async (id: string, filter?: IExpenseFilter, options: any = {}): Promise<RequestArgs> => {
+        expenseControllerFindById: async (id: string, filter?: IExpenseFilter1, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('expenseControllerFindById', 'id', id)
             const localVarPath = `/expenses/{id}`
@@ -1962,13 +2061,81 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
         },
         /**
          * 
-         * @param {number} [month] 
-         * @param {number} [year] 
-         * @param {IExpenseFilter1} [filter] 
+         * @param {IExpenseFilter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        expenseControllerFindUnassigned: async (month?: number, year?: number, filter?: IExpenseFilter1, options: any = {}): Promise<RequestArgs> => {
+        expenseControllerFindLatest: async (filter?: IExpenseFilter, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/expenses/latest`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {IExpenseFilter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerFindLatestDate: async (filter?: IExpenseFilter, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/expenses/latest/date`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (filter !== undefined) {
+                localVarQueryParameter['filter'] = filter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [year] 
+         * @param {number} [month] 
+         * @param {IExpenseFilter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerFindUnassigned: async (year?: number, month?: number, filter?: IExpenseFilter, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/expenses-unassigned`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1981,12 +2148,12 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (month !== undefined) {
-                localVarQueryParameter['month'] = month;
-            }
-
             if (year !== undefined) {
                 localVarQueryParameter['year'] = year;
+            }
+
+            if (month !== undefined) {
+                localVarQueryParameter['month'] = month;
             }
 
             if (filter !== undefined) {
@@ -2158,36 +2325,57 @@ export const ExpenseControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {boolean} [flat] 
-         * @param {IExpenseFilter1} [filter] 
+         * @param {number} [year] 
+         * @param {number} [month] 
+         * @param {IExpenseFilter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async expenseControllerFind(flat?: boolean, filter?: IExpenseFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpenseWithRelations>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFind(flat, filter, options);
+        async expenseControllerFind(year?: number, month?: number, filter?: IExpenseFilter, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpenseWithRelations>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFind(year, month, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @param {string} id 
-         * @param {IExpenseFilter} [filter] 
+         * @param {IExpenseFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async expenseControllerFindById(id: string, filter?: IExpenseFilter, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IExpenseWithRelations>> {
+        async expenseControllerFindById(id: string, filter?: IExpenseFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IExpenseWithRelations>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFindById(id, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} [month] 
-         * @param {number} [year] 
-         * @param {IExpenseFilter1} [filter] 
+         * @param {IExpenseFilter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async expenseControllerFindUnassigned(month?: number, year?: number, filter?: IExpenseFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpense>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFindUnassigned(month, year, filter, options);
+        async expenseControllerFindLatest(filter?: IExpenseFilter, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpenseWithRelations>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFindLatest(filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {IExpenseFilter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async expenseControllerFindLatestDate(filter?: IExpenseFilter, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFindLatestDate(filter, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} [year] 
+         * @param {number} [month] 
+         * @param {IExpenseFilter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async expenseControllerFindUnassigned(year?: number, month?: number, filter?: IExpenseFilter, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpense>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerFindUnassigned(year, month, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2262,34 +2450,53 @@ export const ExpenseControllerApiFactory = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {boolean} [flat] 
-         * @param {IExpenseFilter1} [filter] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        expenseControllerFind(flat?: boolean, filter?: IExpenseFilter1, options?: any): AxiosPromise<Array<IExpenseWithRelations>> {
-            return localVarFp.expenseControllerFind(flat, filter, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
+         * @param {number} [year] 
+         * @param {number} [month] 
          * @param {IExpenseFilter} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        expenseControllerFindById(id: string, filter?: IExpenseFilter, options?: any): AxiosPromise<IExpenseWithRelations> {
-            return localVarFp.expenseControllerFindById(id, filter, options).then((request) => request(axios, basePath));
+        expenseControllerFind(year?: number, month?: number, filter?: IExpenseFilter, options?: any): AxiosPromise<Array<IExpenseWithRelations>> {
+            return localVarFp.expenseControllerFind(year, month, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} [month] 
-         * @param {number} [year] 
+         * @param {string} id 
          * @param {IExpenseFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        expenseControllerFindUnassigned(month?: number, year?: number, filter?: IExpenseFilter1, options?: any): AxiosPromise<Array<IExpense>> {
-            return localVarFp.expenseControllerFindUnassigned(month, year, filter, options).then((request) => request(axios, basePath));
+        expenseControllerFindById(id: string, filter?: IExpenseFilter1, options?: any): AxiosPromise<IExpenseWithRelations> {
+            return localVarFp.expenseControllerFindById(id, filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {IExpenseFilter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerFindLatest(filter?: IExpenseFilter, options?: any): AxiosPromise<Array<IExpenseWithRelations>> {
+            return localVarFp.expenseControllerFindLatest(filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {IExpenseFilter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerFindLatestDate(filter?: IExpenseFilter, options?: any): AxiosPromise<string> {
+            return localVarFp.expenseControllerFindLatestDate(filter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [year] 
+         * @param {number} [month] 
+         * @param {IExpenseFilter} [filter] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerFindUnassigned(year?: number, month?: number, filter?: IExpenseFilter, options?: any): AxiosPromise<Array<IExpense>> {
+            return localVarFp.expenseControllerFindUnassigned(year, month, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2366,39 +2573,62 @@ export class ExpenseControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {boolean} [flat] 
-     * @param {IExpenseFilter1} [filter] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ExpenseControllerApi
-     */
-    public expenseControllerFind(flat?: boolean, filter?: IExpenseFilter1, options?: any) {
-        return ExpenseControllerApiFp(this.configuration).expenseControllerFind(flat, filter, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id 
+     * @param {number} [year] 
+     * @param {number} [month] 
      * @param {IExpenseFilter} [filter] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ExpenseControllerApi
      */
-    public expenseControllerFindById(id: string, filter?: IExpenseFilter, options?: any) {
-        return ExpenseControllerApiFp(this.configuration).expenseControllerFindById(id, filter, options).then((request) => request(this.axios, this.basePath));
+    public expenseControllerFind(year?: number, month?: number, filter?: IExpenseFilter, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerFind(year, month, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {number} [month] 
-     * @param {number} [year] 
+     * @param {string} id 
      * @param {IExpenseFilter1} [filter] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ExpenseControllerApi
      */
-    public expenseControllerFindUnassigned(month?: number, year?: number, filter?: IExpenseFilter1, options?: any) {
-        return ExpenseControllerApiFp(this.configuration).expenseControllerFindUnassigned(month, year, filter, options).then((request) => request(this.axios, this.basePath));
+    public expenseControllerFindById(id: string, filter?: IExpenseFilter1, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerFindById(id, filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {IExpenseFilter} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpenseControllerApi
+     */
+    public expenseControllerFindLatest(filter?: IExpenseFilter, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerFindLatest(filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {IExpenseFilter} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpenseControllerApi
+     */
+    public expenseControllerFindLatestDate(filter?: IExpenseFilter, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerFindLatestDate(filter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [year] 
+     * @param {number} [month] 
+     * @param {IExpenseFilter} [filter] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpenseControllerApi
+     */
+    public expenseControllerFindUnassigned(year?: number, month?: number, filter?: IExpenseFilter, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerFindUnassigned(year, month, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

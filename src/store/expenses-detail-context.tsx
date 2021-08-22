@@ -1,27 +1,27 @@
 import { createContext, useState} from 'react';
-import { ExpenseControllerApi } from '../api'
+import { EntryControllerApi, IEntry } from '../api'
+import { useContext } from 'react';
 
-const ExpensesContext = createContext({
+const ExpensesDetailContext = createContext({
     isFetching: false,
     fetchMonth: 0,
     fetchYear: 2021,
-    expenses: [],
+    entries: [],
     updateIsFetching: (isFetching: boolean) => {},
     updateFetchMonth: (fetchMonth: number) => {},
     updateFetchYear: (fetchYear: number) => {},
-    updateExpenses: () => {}
+    updateEntries: (entries: any) => {}
 })
 
-export function ExpensesContextProvider(props: any){
+export function ExpensesDetailContextProvider(props: any){
 
     let today = new Date()
 
     const [isFetching, setIsFetching] =  useState(false);
     const [fetchYear, setFetchYear] =  useState(today.getFullYear());
     const [fetchMonth, setFetchMonth] =  useState(today.getMonth());
-    const [expenses, setExpenses] = useState([])
-    const expenseController = new ExpenseControllerApi()
-    
+    const [entries, setEntries] = useState([])
+
     function updateIsFetchingHandler(isFetching: boolean){
         setIsFetching(isFetching)
     }
@@ -34,28 +34,22 @@ export function ExpensesContextProvider(props: any){
         setFetchYear(fetchYear)
     }
 
-    function updateExpensesHandler(){
-        setIsFetching(true)
-        if(fetchYear !== 0 && fetchMonth !== 0){
-            expenseController.expenseControllerFind(fetchYear, fetchMonth).then((response: any) => {
-                setExpenses(response.data)
-                setIsFetching(false)
-            });
-        }
+    function updateEntriesHandler(entries: any){
+        setEntries(entries)
     }
 
     const context = {
         isFetching: isFetching,
         fetchMonth: fetchMonth,
         fetchYear: fetchYear,
-        expenses: expenses,
+        entries: entries,
         updateIsFetching: updateIsFetchingHandler,
         updateFetchMonth: updateFetchMonthHandler,
         updateFetchYear: updateFetchYearHandler,
-        updateExpenses: updateExpensesHandler
+        updateEntries: updateEntriesHandler
     };
 
-    return <ExpensesContext.Provider value={context}>{props.children}</ExpensesContext.Provider>
+    return <ExpensesDetailContext.Provider value={context}>{props.children}</ExpensesDetailContext.Provider>
 }
 
-export default ExpensesContext
+export default ExpensesDetailContext

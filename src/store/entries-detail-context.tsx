@@ -1,7 +1,8 @@
 import { createContext, useState} from 'react';
-import { ExpenseControllerApi } from '../api'
+import { EntryControllerApi, IEntry } from '../api'
+import { useContext } from 'react';
 
-const ExpensesContext = createContext({
+const ExpensesDetailContext = createContext({
     isFetching: false,
     fetchMonth: 0,
     fetchYear: 2021,
@@ -9,10 +10,10 @@ const ExpensesContext = createContext({
     updateIsFetching: (isFetching: boolean) => {},
     updateFetchMonth: (fetchMonth: number) => {},
     updateFetchYear: (fetchYear: number) => {},
-    updateExpenses: () => {}
+    updateExpenses: (expenses: any) => {}
 })
 
-export function ExpensesContextProvider(props: any){
+export function ExpensesDetailContextProvider(props: any){
 
     let today = new Date()
 
@@ -20,8 +21,7 @@ export function ExpensesContextProvider(props: any){
     const [fetchYear, setFetchYear] =  useState(today.getFullYear());
     const [fetchMonth, setFetchMonth] =  useState(today.getMonth());
     const [expenses, setExpenses] = useState([])
-    const expenseController = new ExpenseControllerApi()
-    
+
     function updateIsFetchingHandler(isFetching: boolean){
         setIsFetching(isFetching)
     }
@@ -34,14 +34,8 @@ export function ExpensesContextProvider(props: any){
         setFetchYear(fetchYear)
     }
 
-    function updateExpensesHandler(){
-        setIsFetching(true)
-        if(fetchYear !== 0 && fetchMonth !== 0){
-            expenseController.expenseControllerFind(fetchYear, fetchMonth).then((response: any) => {
-                setExpenses(response.data)
-                setIsFetching(false)
-            });
-        }
+    function updateExpensesHandler(expenses: any){
+        setExpenses(expenses)
     }
 
     const context = {
@@ -55,7 +49,7 @@ export function ExpensesContextProvider(props: any){
         updateExpenses: updateExpensesHandler
     };
 
-    return <ExpensesContext.Provider value={context}>{props.children}</ExpensesContext.Provider>
+    return <ExpensesDetailContext.Provider value={context}>{props.children}</ExpensesDetailContext.Provider>
 }
 
-export default ExpensesContext
+export default ExpensesDetailContext

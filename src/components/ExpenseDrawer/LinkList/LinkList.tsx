@@ -3,24 +3,22 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import EntrySelection from '../EntrySelection/EntrySelection';
+import EntryLinkButton from './EntryLinkButton/EntryLinkButton';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
-import EntriesContext from '../../../store/entries-context';
 import { useContext } from 'react';
 import React, { useEffect, useState } from 'react';
-import DrawerContext from '../../../store/drawer-context';
-export default function EntriesList(props: any){
+import ExpensesDetailContext from '../../../store/expenses-detail-context';
+export default function LinkList(props: any){
 
     const [loadedEntries, setLoadedEntries] = useState([])
-    const entryCtx = useContext(EntriesContext);
-    const drawerCtx = useContext(DrawerContext);
+    const detailCtx = useContext(ExpensesDetailContext);
 
-    const [expense, setExpense] = useState({})
+    const linkedEntryId = props.expense.entryId
 
     useEffect(() => {
-        setLoadedEntries(entryCtx.entries)
-    }, [entryCtx.entries]);
+        setLoadedEntries(detailCtx.entries)
+    }, [detailCtx.entries]);
 
     return(
         <Container>
@@ -46,8 +44,8 @@ export default function EntriesList(props: any){
                             <TableCell align="right">{row.inflow}</TableCell>
                             <TableCell align="right">{row.outflow}</TableCell>
                             <TableCell align="right">
-                            <span >
-                                <EntrySelection entryId={row.id} />
+                            <span>
+                                <EntryLinkButton entryId={row.id} highlighted={row.id == linkedEntryId} />
                             </span>
                             </TableCell>
                         </TableRow>

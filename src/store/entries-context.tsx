@@ -1,6 +1,5 @@
 import { createContext, useState} from 'react';
 import { EntryControllerApi, IEntry } from '../api'
-import DrawerContext from "./drawer-context";
 import { useContext } from 'react';
 
 const EntriesContext = createContext({
@@ -22,10 +21,6 @@ export function EntriesContextProvider(props: any){
     const [fetchYear, setFetchYear] =  useState(today.getFullYear());
     const [fetchMonth, setFetchMonth] =  useState(today.getMonth());
     const [EntriesList, setEntriesList] = useState([])
-    const EntryController = new EntryControllerApi()
-    
-
-    const drawerCtx = useContext(DrawerContext)
 
     function updateIsFetchingHandler(isFetching: boolean){
         setIsFetching(isFetching)
@@ -41,22 +36,6 @@ export function EntriesContextProvider(props: any){
 
     function updateEntriesListHandler(entriesList: any){
         setEntriesList(entriesList)
-        // setIsFetching(true)
-        // let year = fetchYear
-        // let month = fetchMonth
-        // if(year !== 0 && month !== 0){
-            // return EntryController.entryControllerFind(month, year).then((response:any) => {
-            //     console.log('Fetching Entries')
-            //     console.log(year)
-            //     console.log(month)
-            //     return response.data
-            //   }).then((entriesList: any) => {
-            //     setEntriesList(entriesList)
-            //     setIsFetching(false)
-            //     return entriesList
-            //   });
-        // }
-
     }
 
     const context = {

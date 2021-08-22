@@ -1,7 +1,7 @@
 import { createContext, useState} from 'react';
 import { ExpenseControllerApi } from '../api'
 
-const ExpensesContext = createContext({
+const UnlinkedExpensesContext = createContext({
     isFetching: false,
     fetchMonth: 0,
     fetchYear: 2021,
@@ -12,7 +12,7 @@ const ExpensesContext = createContext({
     updateExpenses: () => {}
 })
 
-export function ExpensesContextProvider(props: any){
+export function UnlinkedExpensesContextProvider(props: any){
 
     let today = new Date()
 
@@ -22,6 +22,7 @@ export function ExpensesContextProvider(props: any){
     const [expenses, setExpenses] = useState([])
     const expenseController = new ExpenseControllerApi()
     
+
     function updateIsFetchingHandler(isFetching: boolean){
         setIsFetching(isFetching)
     }
@@ -37,11 +38,12 @@ export function ExpensesContextProvider(props: any){
     function updateExpensesHandler(){
         setIsFetching(true)
         if(fetchYear !== 0 && fetchMonth !== 0){
-            expenseController.expenseControllerFind(fetchYear, fetchMonth).then((response: any) => {
+            expenseController.expenseControllerFindUnassigned(fetchYear, fetchMonth).then((response: any) => {
                 setExpenses(response.data)
                 setIsFetching(false)
             });
         }
+
     }
 
     const context = {
@@ -55,7 +57,7 @@ export function ExpensesContextProvider(props: any){
         updateExpenses: updateExpensesHandler
     };
 
-    return <ExpensesContext.Provider value={context}>{props.children}</ExpensesContext.Provider>
+    return <UnlinkedExpensesContext.Provider value={context}>{props.children}</UnlinkedExpensesContext.Provider>
 }
 
-export default ExpensesContext
+export default UnlinkedExpensesContext

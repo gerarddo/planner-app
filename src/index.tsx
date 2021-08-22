@@ -6,17 +6,28 @@ import reportWebVitals from './reportWebVitals';
 import '@fontsource/roboto';
 import {ExpensesContextProvider} from './store/expenses-context'
 import {EntriesContextProvider} from './store/entries-context'
-import {DrawerContextProvider} from './store/drawer-context'
+import {ExpensesDetailContextProvider} from './store/expenses-detail-context';
+import {ExpensesDrawerContextProvider} from './store/expenses-drawer-context';
+import {UnlinkedExpensesContextProvider} from './store/unlinked-expenses-context'
+import {MenuDrawerContextProvider} from './store/menu-drawer-context'
 ReactDOM.render(
-  <DrawerContextProvider>
+
     <ExpensesContextProvider>
       <EntriesContextProvider>
-          <React.StrictMode>
-            <App />
-          </React.StrictMode>
+        <ExpensesDetailContextProvider>
+          <ExpensesDrawerContextProvider>
+            <UnlinkedExpensesContextProvider>
+              <MenuDrawerContextProvider>
+                <React.StrictMode>
+                  <App />
+                </React.StrictMode>
+              </MenuDrawerContextProvider>
+            </UnlinkedExpensesContextProvider>
+          </ExpensesDrawerContextProvider>
+        </ExpensesDetailContextProvider>
       </EntriesContextProvider>
     </ExpensesContextProvider>
-  </DrawerContextProvider>,
+  ,
   document.getElementById('root')
 );
 

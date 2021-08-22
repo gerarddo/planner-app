@@ -3,22 +3,21 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import { useContext } from 'react';
-import './Drawer.css';
-import ExpenseDetail from '../common/ExpenseDetail/ExpenseDetail'
+import ExpenseInfo from './ExpenseInfo/ExpenseInfo'
 import CancelSharpIcon from '@material-ui/icons/CancelSharp';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { Box, Button } from "@material-ui/core";
-import EntriesList from './EntriesList/EntriesList';
-import EntriesContext from '../../store/entries-context';
-import DrawerContext from '../../store/drawer-context';
+import LinkList from './LinkList/LinkList';
+import ExpensesDetailContext from '../../store/expenses-detail-context';
+import ExpensesDrawerContext from '../../store/expenses-drawer-context';
 import { EntryControllerApi } from '../../api'
 
 
-export default function TemporaryDrawer(props: any) {
+export default function ExpenseDrawer(props: any) {
 
-  const entryCtx = useContext(EntriesContext);
-  const drawerCtx = useContext(DrawerContext);
+  const detailCtx = useContext(ExpensesDetailContext);
+  const drawerCtx = useContext(ExpensesDrawerContext);
   const [drawerState, setDrawerState] = React.useState(false);
   const [expense, setExpense] = useState({})
   const [isLoading, setIsLoading] = useState(true)
@@ -64,26 +63,18 @@ export default function TemporaryDrawer(props: any) {
 
   useEffect(() => {
       let year = 2021
-      let month = entryCtx.month
-      entryCtx.updateIsFetching(true)
+      let month = detailCtx.fetchMonth
+      detailCtx.updateIsFetching(true)
       setIsLoading(true)
-      setExpense(drawerCtx.expense)
+      setExpense(drawerCtx.item)
       entryController.entryControllerFind(month, year).then((response:any) => {
-              return response.data
-            }).then((entriesList: any) => {
-              entryCtx.updateEntriesList(entriesList)
-              entryCtx.updateIsFetching(false)
+              detailCtx.updateEntries(response.data)
+              detailCtx.updateIsFetching(false)
               setIsLoading(false)
-              return entriesList
+              return response.data
             });
-      setDrawerState(drawerCtx.open)
-  }, [entryCtx.month,drawerCtx.expense,drawerCtx.open]);
-
-  if(isLoading){
-    return(
-      <div>Loading...</div>
-    )
-  }
+      setDrawerState(drawerCtx.isOpen)
+  }, [detailCtx.fetchMonth,drawerCtx.item,drawerCtx.isOpen]);
 
   function conditionalComponent(){
     if(isLoading){
@@ -93,9 +84,9 @@ export default function TemporaryDrawer(props: any) {
     } else {
       return(
         <div>
-          <ExpenseDetail  expense = {expense}></ExpenseDetail>
+          <ExpenseInfo expense = {expense}></ExpenseInfo>
           <br/>
-          <EntriesList></EntriesList>
+          <LinkList expense = {expense} ></LinkList>
         </div>
       )
     }

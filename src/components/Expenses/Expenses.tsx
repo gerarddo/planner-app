@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import  ExpensesContext  from '../../store/expenses-context'
 import { useContext } from 'react';
 import Pagination from '@material-ui/lab/Pagination';
 import ExpensesList from './ExpensesList/ExpensesList';
-import TemporaryDrawer from '../Drawer/Drawer'
+import ExpenseDrawer from '../ExpenseDrawer/ExpenseDrawer'
+import ExpensesContext from '../../store/expenses-context';
+import MenuDrawerContext from '../../store/menu-drawer-context';
 
 function preventDefault(event: any) {
   event.preventDefault();
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Linker() {
+export default function Expenses() {
 
     const today = new Date()
     const pageCount = today.getMonth()+1
@@ -31,10 +32,12 @@ export default function Linker() {
     const [page, setPage] = useState(pageCount);
     const classes = useStyles();
     const ctx = useContext(ExpensesContext);
+    const menuCtx = useContext(MenuDrawerContext);
 
     useEffect(() => {
-        ctx.updateExpensesList()
-    }, [ctx.month]);
+        ctx.updateExpenses()
+        menuCtx.updateTabTitle('All Expenses')
+    }, [ctx.fetchMonth]);
 
     function monthExpensesUpdate(ev: object, pageNum: number){
         let month = pageNum - 1
@@ -55,8 +58,7 @@ export default function Linker() {
                 See more Expenses 
                 </Link>
             </div> 
-            <TemporaryDrawer></TemporaryDrawer>
-
+            <ExpenseDrawer></ExpenseDrawer>
         </React.Fragment>
     )
 }

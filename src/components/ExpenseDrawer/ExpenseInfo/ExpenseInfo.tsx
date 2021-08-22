@@ -1,17 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import './ExpenseDetail.css';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import clsx from 'clsx';
-import CalendarIcon from '../CalendarIcon/CalendarIcon';
-import Title from '../Title/Title';
+import CalendarIcon from '../../common/CalendarIcon/CalendarIcon';
+import Title from '../../common/Title/Title';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,12 +33,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ExpenseDetail(props: any) {
+export default function ExpenseInfo(props: any) {
 
   const classes = useStyles();
 
+  // TODO: Renaming props like this is an anti-pattern. Correct it if you've got time.
   props = props.expense
-  
+
   let flows = 0
 
   if(props.outflow > 0){
@@ -64,12 +59,16 @@ export default function ExpenseDetail(props: any) {
             <Grid item xs={9} sm container>
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
+                  <h4>Expense information</h4>
                   <Title>{props.description}</Title>
                   <Typography color="textSecondary" className={classes.depositContext}>
                     {props.method}
                   </Typography>
                   <Typography component="p" variant="h4">
                     {flows} MXN
+                  </Typography>
+                  <Typography color="textPrimary" className={classes.depositContext}>
+                    Tags: {props.tags}
                   </Typography>
                 </Grid>
               </Grid>
