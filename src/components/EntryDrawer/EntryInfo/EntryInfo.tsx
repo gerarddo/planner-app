@@ -9,7 +9,8 @@ import Title from '../../common/Title/Title';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { IExpense } from '../../../api';
+import EntriesDrawerContext from '../../../store/entries-drawer-context';
+import { IEntry, IEntryPartial } from '../../../api';
 import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
 import { Box, Button } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -50,9 +51,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ExpenseInfo(props: any) {
-
-  const mockExpense: IExpense = {
+export default function EntryInfo(props: any) {
+  const mockEntry: IEntry = {
     id: '',
     ymd: '',
     tags: [],
@@ -63,30 +63,30 @@ export default function ExpenseInfo(props: any) {
   }
 
   const classes = useStyles();
-  const [expense, setExpense] = useState(mockExpense)
+  const [entry, setEntry] = useState(mockEntry)
   const [flows, setFlows] = useState(0)
 
   // TODO: to get the current EntryInfo entry might be more meaningful to retrieve from EntriesDetailContext
-  const drawerCtx = useContext(ExpensesDrawerContext);
+  const drawerCtx = useContext(EntriesDrawerContext);
 
   useEffect(() => {    
-    const newExpense: IExpense = drawerCtx.item
-    setExpense(newExpense)
-    if(newExpense.outflow > 0){
-      setFlows( -newExpense.outflow )
+    const newEntry: IEntry = drawerCtx.item
+    setEntry(newEntry)
+    if(newEntry.outflow > 0){
+      setFlows( -newEntry.outflow )
     } else {
-      setFlows( newExpense.inflow )
+      setFlows( newEntry.inflow )
     }
   }, [drawerCtx.item]);
 
   const testTags = ['to-be-paid','bank','living-costs']
   const top10Tags = testTags
-  
   const handleRemoveTag = () => {
     console.log('tag is about to be removed')
   }
+
   const handleAddTag = () => {
-    console.log('heyyy im adding a taag')
+    console.log('tag is about to be added')
   }
 
   return (
@@ -95,15 +95,15 @@ export default function ExpenseInfo(props: any) {
         <Paper className={classes.paper}>
           <Grid container spacing={3}>
             <Grid item xs={3}  container>
-              <CalendarIcon ymd={expense.ymd}></CalendarIcon>
+              <CalendarIcon ymd={entry.ymd}></CalendarIcon>
             </Grid>
             <Grid item xs={4} sm container>
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
-                  <h4>Expense information</h4>
-                  <Title>{expense.description}</Title>
+                  <h4>Entry information</h4>
+                  <Title>{entry.description}</Title>
                   <Typography color="textSecondary" className={classes.depositContext}>
-                    {expense.method}
+                    {entry.method}
                   </Typography>
                   <Typography component="p" variant="h4">
                     {flows} MXN
@@ -114,36 +114,36 @@ export default function ExpenseInfo(props: any) {
             <Grid item xs={5}  container className={classes.gridLeftBorder}>
               <Grid item xs={12} style={{ paddingTop: 0 }}>
               <div style={{ width: 300 }}>
-                <Autocomplete
-                  freeSolo
-                  options={top10Tags}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Add tag"
-                      margin="normal"
-                    />
-                  )}
-                />
-                <Box>
-                  <Button className='closeButton' onClick={handleAddTag}>
-                    <AddCircleOutlineIcon></AddCircleOutlineIcon>
-                  </Button>
-                </Box>
+                  <Autocomplete
+                    freeSolo
+                    options={top10Tags}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Add tag"
+                        margin="normal"
+                      />
+                    )}
+                  />
+                  <Box>
+                    <Button className='closeButton' onClick={handleAddTag}>
+                      <AddCircleOutlineIcon></AddCircleOutlineIcon>
+                    </Button>
+                  </Box>
                 </div>
               </Grid>
               <Grid item xs={12}>
                 <div className={classes.chipContainer}>
                   {
-                    testTags.map((tag: string) => {
-                      return (
-                        <Chip
-                          label={tag}
-                          color="primary"
-                          onDelete={handleRemoveTag}
-                        />
-                      )
-                    })
+                      entry.tags?.map((tag: string) => {
+                        return (
+                          <Chip
+                            label={tag}
+                            color="primary"
+                            onDelete={handleRemoveTag}
+                          />
+                        )
+                      })
                   }
                 </div>
               </Grid>

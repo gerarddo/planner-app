@@ -2,18 +2,21 @@
 import Button from '@material-ui/core/Button';
 import { ExpenseControllerApi } from '../../../../api';
 import { useContext, useEffect, useState } from 'react';
-import UnlinkedExpensesContext  from '../../../../store/unlinked-expenses-context'
+import ExpensesContext  from '../../../../store/expenses-context'
 import ExpensesDrawerContext from '../../../../store/expenses-drawer-context';
 import './EntryLinkButton.css';
 
 export default function EntryLinkButton(props: any) {
 
-    const expenseCtx = useContext(UnlinkedExpensesContext);
+    const expenseCtx = useContext(ExpensesContext);
+
     const drawerCtx = useContext(ExpensesDrawerContext);
     const [expenseId, setExpenseId] = useState('0')
 
     useEffect(() => {
-        setExpenseId(drawerCtx.item.id)
+        if(drawerCtx.item.id !== undefined){
+            setExpenseId(drawerCtx.item.id)
+        }
     }, []);
 
     const expenseController = new ExpenseControllerApi()
@@ -21,9 +24,22 @@ export default function EntryLinkButton(props: any) {
     let linkEntry = function(entryId:any){
         let patch: any = {entryId : entryId}
         expenseController.expenseControllerUpdateById(expenseId,patch).then((data)=>{
-            expenseCtx.updateIsFetching(true)
             expenseCtx.updateExpenses()
         })
+    }
+
+    let unlinkEntry = function(){
+        expenseController.expenseControllerResetLinkById(expenseId).then((data)=>{
+            expenseCtx.updateExpenses()
+        })
+    }
+
+    let linkCall = function(){
+        if (props.highlighted){
+            unlinkEntry()
+        } else {
+            linkEntry(props.entryId)
+        }
     }
     
     let btnText = 'LINK'
@@ -32,10 +48,8 @@ export default function EntryLinkButton(props: any) {
         btnText = "UNLINK"
     }
 
-    
-
     return (
-        <Button onClick={() => {linkEntry(props.entryId)}} > {btnText} </Button>
+        <Button onClick={linkCall} > {btnText} </Button>
         )
 
 }

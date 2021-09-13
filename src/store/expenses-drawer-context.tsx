@@ -1,9 +1,19 @@
 import { createContext, useState} from 'react';
 import { IExpense } from '../api';
 
+const mockItem: IExpense = {
+    id: '',
+    ymd: '',
+    tags: [],
+    description: '',
+    method: '',
+    inflow: 0,
+    outflow: 0
+}
+
 const ExpensesDrawerContext = createContext({
     isOpen: false,
-    item: {id:'0',ymd:'2021-01-01'},
+    item: mockItem,
     updateIsOpen: (isOpen: boolean) => {},
     updateItem: (item: object) => {}
 })
@@ -11,7 +21,7 @@ const ExpensesDrawerContext = createContext({
 export function ExpensesDrawerContextProvider(props: any){
 
     const [isOpen, setIsOpen] = useState(false);
-    const [item, setItem] = useState({id:'0',ymd:'2021-01-01'});
+    const [item, setItem] = useState(mockItem);
 
     function updateIsOpenHandler(isOpen: boolean){
         setIsOpen(isOpen)

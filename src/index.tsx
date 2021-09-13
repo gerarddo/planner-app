@@ -8,21 +8,24 @@ import {ExpensesContextProvider} from './store/expenses-context'
 import {EntriesContextProvider} from './store/entries-context'
 import {ExpensesDetailContextProvider} from './store/expenses-detail-context';
 import {ExpensesDrawerContextProvider} from './store/expenses-drawer-context';
-import {UnlinkedExpensesContextProvider} from './store/unlinked-expenses-context'
 import {MenuDrawerContextProvider} from './store/menu-drawer-context'
+import {EntriesDrawerContextProvider} from './store/entries-drawer-context';
+import {EntriesDetailContextProvider} from './store/entries-detail-context';
 ReactDOM.render(
 
     <ExpensesContextProvider>
       <EntriesContextProvider>
         <ExpensesDetailContextProvider>
           <ExpensesDrawerContextProvider>
-            <UnlinkedExpensesContextProvider>
-              <MenuDrawerContextProvider>
-                <React.StrictMode>
-                  <App />
-                </React.StrictMode>
-              </MenuDrawerContextProvider>
-            </UnlinkedExpensesContextProvider>
+              <EntriesDrawerContextProvider>
+                <EntriesDetailContextProvider>
+                  <MenuDrawerContextProvider>
+                    <React.StrictMode>
+                      <App />
+                    </React.StrictMode>
+                  </MenuDrawerContextProvider>
+                </EntriesDetailContextProvider>
+              </EntriesDrawerContextProvider>
           </ExpensesDrawerContextProvider>
         </ExpensesDetailContextProvider>
       </EntriesContextProvider>

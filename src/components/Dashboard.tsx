@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-import UnlinkedExpenses from './UnlinkedExpenses/UnlinkedExpenses';
+
 
 function Copyright() {
   return (
@@ -86,7 +86,7 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <UnlinkedExpenses />
+              Dashboard component should be deprecated by now dude, remove it or something.
               </Paper>
             </Grid>
           </Grid>

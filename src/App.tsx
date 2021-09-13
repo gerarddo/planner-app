@@ -12,8 +12,7 @@ import MenuDrawerContext from './store/menu-drawer-context';
 import clsx from 'clsx';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Expenses from './components/Expenses/Expenses';
-import UnlinkedExpenses from './components/UnlinkedExpenses/UnlinkedExpenses';
-
+import Entries from './components/Entries/Entries';
 const drawerWidth = 240;
 
 
@@ -113,29 +112,25 @@ function App() {
           </Toolbar>
         </AppBar>
 
-        
-
-
         <Router>
-        <SideMenu></SideMenu>
-
-        <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-            <Switch>
-                <Route exact path='/' component={UnlinkedExpenses} />
-                <Route exact path='/expenses' component={Expenses} />
-            </Switch>
-            </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </main>          
+          <SideMenu></SideMenu>
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Container maxWidth="lg" className={classes.container}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                  <Switch>
+                      <Route exact path='/' component={Expenses} />
+                      <Route exact path='/expenses' component={Expenses} />
+                      <Route exact path='/entries' component={Entries} />
+                  </Switch>
+                  </Paper>
+                </Grid>
+              </Grid>
+            </Container>
+          </main>          
         </Router>
-
 
       </div>
     </div>

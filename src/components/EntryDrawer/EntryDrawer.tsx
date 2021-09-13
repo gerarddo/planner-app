@@ -3,22 +3,23 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import { useContext } from 'react';
-import ExpenseInfo from './ExpenseInfo/ExpenseInfo'
+import EntryInfo from './EntryInfo/EntryInfo'
 import CancelSharpIcon from '@material-ui/icons/CancelSharp';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { Box, Button } from "@material-ui/core";
-import LinkList from './LinkList/LinkList';
+import UnlinkList from './UnlinkList/UnlinkList';
 import ExpensesDetailContext from '../../store/expenses-detail-context';
 import ExpensesDrawerContext from '../../store/expenses-drawer-context';
 import { EntryControllerApi } from '../../api'
+import EntriesDrawerContext from '../../store/entries-drawer-context';
 
 
-export default function ExpenseDrawer(props: any) {
+export default function EntryDrawer(props: any) {
 
-  const drawerCtx = useContext(ExpensesDrawerContext);
+  const drawerCtx = useContext(EntriesDrawerContext);
   const [drawerState, setDrawerState] = React.useState(false);
-  const [expense, setExpense] = useState({})
+  const [entry, setEntry] = useState({})
   type Anchor = 'top' | 'left' | 'bottom' | 'right';
   const anchor: Anchor = 'bottom'
 
@@ -57,7 +58,7 @@ export default function ExpenseDrawer(props: any) {
   };
 
   useEffect(() => {      
-      setExpense(drawerCtx.item)
+      setEntry(drawerCtx.item)
       setDrawerState(drawerCtx.isOpen)
   }, [drawerCtx.isOpen]);
 
@@ -79,7 +80,7 @@ export default function ExpenseDrawer(props: any) {
         <Container>
           <Grid item xs={12} container justify="flex-end">
             <Box>
-              <Button className='closeButton' onClick={closeDrawer}>
+              <Button onClick={closeDrawer} className='closeButton' >
               <CancelSharpIcon ></CancelSharpIcon>
               </Button>
             </Box>
@@ -87,9 +88,9 @@ export default function ExpenseDrawer(props: any) {
         </Container>
         <br/>
           <div>
-            <ExpenseInfo expense = {expense}></ExpenseInfo>
+            <EntryInfo entry = {entry}></EntryInfo>
             <br/>
-            <LinkList expense = {expense}></LinkList>
+            <UnlinkList entry = {entry}></UnlinkList>
           </div>
       </div>
     </Drawer>

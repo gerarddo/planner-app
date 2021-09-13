@@ -3,12 +3,12 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import { useContext } from 'react';
 import Pagination from '@material-ui/lab/Pagination';
-import ExpensesList from './ExpensesList/ExpensesList';
-import ExpenseDrawer from '../ExpenseDrawer/ExpenseDrawer'
-import ExpensesContext from '../../store/expenses-context';
+import EntriesList from './EntriesList/EntriesList';
+import EntryDrawer from '../EntryDrawer/EntryDrawer'
+import EntriesContext from '../../store/entries-context';
 import MenuDrawerContext from '../../store/menu-drawer-context';
+import {EntryControllerApi} from '../../api'
 import * as XLSX from 'xlsx';
-import { ExpenseControllerApi } from '../../api'
 
 function preventDefault(event: any) {
   event.preventDefault();
@@ -26,27 +26,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Expenses() {
+export default function Entries() {
 
     const today = new Date()
     const pageCount = today.getMonth()+1
     const [fetchMonth, setFetchMonth] = useState(1);
     const [page, setPage] = useState(pageCount);
     const classes = useStyles();
-    const ctx = useContext(ExpensesContext);
+    const ctx = useContext(EntriesContext);
     const menuCtx = useContext(MenuDrawerContext);
-    const expenseController = new ExpenseControllerApi();
+    const entryController = new EntryControllerApi();
+
     useEffect(() => {
-        ctx.updateExpenses()
-        menuCtx.updateTabTitle('All Expenses')
+        ctx.updateEntries()
+        menuCtx.updateTabTitle('All Entries')
     }, [ctx.fetchMonth]);
 
-    function monthExpensesUpdate(ev: object, pageNum: number){
+    function monthEntriesUpdate(ev: object, pageNum: number){
         ctx.updateFetchMonth(pageNum - 1)
         setFetchMonth(pageNum - 1)
         setPage(pageNum)
     }
-      
+
     function refreshPage() { window.location.reload()};
     // handle file upload
     const handleFileUpload = (e: any) => {
@@ -70,7 +71,7 @@ export default function Expenses() {
           record.outflow = parseFloat(record.outflow)
           return record
         });
-        expenseController.expenseControllerCreateAll(records).then((response:any) => {
+        entryController.entryControllerCreateAll(records).then((response:any) => {
           refreshPage() 
         })
       };
@@ -87,17 +88,17 @@ export default function Expenses() {
                 onChange={handleFileUpload}
               />
             </div>
-            <Pagination page={page} count={pageCount} color="secondary" onChange={monthExpensesUpdate}/>
-            <ExpensesList year={2021} month={fetchMonth}></ExpensesList>
+            <Pagination page={page} count={pageCount} color="secondary" onChange={monthEntriesUpdate}/>
+            <EntriesList year={2021} month={fetchMonth}></EntriesList>
             <div className={classes.seeMore}>
                 <div className={classes.root}>
-                    <Pagination page={page} count={pageCount} color="secondary" onChange={monthExpensesUpdate}/>
+                    <Pagination page={page} count={pageCount} color="secondary" onChange={monthEntriesUpdate}/>
                 </div>
                 <Link color="primary" href="#" onClick={preventDefault}>
-                See more Expenses 
+                See more Entries 
                 </Link>
             </div> 
-            <ExpenseDrawer></ExpenseDrawer>
+            <EntryDrawer></EntryDrawer>
         </React.Fragment>
     )
 }

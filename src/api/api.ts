@@ -47,10 +47,10 @@ export interface IEntry {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof IEntry
      */
-    tags: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -207,10 +207,10 @@ export interface IEntryPartial {
     description?: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof IEntryPartial
      */
-    tags?: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -305,10 +305,10 @@ export interface IEntryWithRelations {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof IEntryWithRelations
      */
-    tags: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -360,10 +360,10 @@ export interface IExpense {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof IExpense
      */
-    tags: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -526,10 +526,10 @@ export interface IExpensePartial {
     description?: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof IExpensePartial
      */
-    tags?: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -630,10 +630,10 @@ export interface IExpenseWithRelations {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof IExpenseWithRelations
      */
-    tags: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -698,10 +698,10 @@ export interface INewEntry {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof INewEntry
      */
-    tags: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -741,10 +741,10 @@ export interface INewExpense {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof INewExpense
      */
-    tags: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -790,10 +790,10 @@ export interface INewExpenseInEntry {
     description: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof INewExpenseInEntry
      */
-    tags: string;
+    tags?: Array<string>;
     /**
      * 
      * @type {string}
@@ -1020,6 +1020,39 @@ export const EntryControllerApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
+         * @param {Array<INewEntry>} [iNewEntry] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryControllerCreateAll: async (iNewEntry?: Array<INewEntry>, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/entries/multiple`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(iNewEntry, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1053,13 +1086,42 @@ export const EntryControllerApiAxiosParamCreator = function (configuration?: Con
         },
         /**
          * 
-         * @param {number} [month] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryControllerDownloadCsv: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/entries/download-data`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} [year] 
+         * @param {number} [month] 
          * @param {IEntryFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        entryControllerFind: async (month?: number, year?: number, filter?: IEntryFilter1, options: any = {}): Promise<RequestArgs> => {
+        entryControllerFind: async (year?: number, month?: number, filter?: IEntryFilter1, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/entries`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1072,12 +1134,12 @@ export const EntryControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (month !== undefined) {
-                localVarQueryParameter['month'] = month;
-            }
-
             if (year !== undefined) {
                 localVarQueryParameter['year'] = year;
+            }
+
+            if (month !== undefined) {
+                localVarQueryParameter['month'] = month;
             }
 
             if (filter !== undefined) {
@@ -1250,6 +1312,43 @@ export const EntryControllerApiAxiosParamCreator = function (configuration?: Con
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryControllerUpdateTagsById: async (id: string, requestBody?: Array<string>, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('entryControllerUpdateTagsById', 'id', id)
+            const localVarPath = `/entries/{id}/tags`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1282,6 +1381,16 @@ export const EntryControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {Array<INewEntry>} [iNewEntry] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async entryControllerCreateAll(iNewEntry?: Array<INewEntry>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IEntryWithRelations>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerCreateAll(iNewEntry, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1292,14 +1401,23 @@ export const EntryControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {number} [month] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async entryControllerDownloadCsv(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerDownloadCsv(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {number} [year] 
+         * @param {number} [month] 
          * @param {IEntryFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async entryControllerFind(month?: number, year?: number, filter?: IEntryFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IEntryWithRelations>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerFind(month, year, filter, options);
+        async entryControllerFind(year?: number, month?: number, filter?: IEntryFilter1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IEntryWithRelations>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerFind(year, month, filter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1347,6 +1465,17 @@ export const EntryControllerApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerUpdateById(id, iEntryPartial, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async entryControllerUpdateTagsById(id: string, requestBody?: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryControllerUpdateTagsById(id, requestBody, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -1377,6 +1506,15 @@ export const EntryControllerApiFactory = function (configuration?: Configuration
         },
         /**
          * 
+         * @param {Array<INewEntry>} [iNewEntry] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryControllerCreateAll(iNewEntry?: Array<INewEntry>, options?: any): AxiosPromise<Array<IEntryWithRelations>> {
+            return localVarFp.entryControllerCreateAll(iNewEntry, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1386,14 +1524,22 @@ export const EntryControllerApiFactory = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {number} [month] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryControllerDownloadCsv(options?: any): AxiosPromise<void> {
+            return localVarFp.entryControllerDownloadCsv(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {number} [year] 
+         * @param {number} [month] 
          * @param {IEntryFilter1} [filter] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        entryControllerFind(month?: number, year?: number, filter?: IEntryFilter1, options?: any): AxiosPromise<Array<IEntryWithRelations>> {
-            return localVarFp.entryControllerFind(month, year, filter, options).then((request) => request(axios, basePath));
+        entryControllerFind(year?: number, month?: number, filter?: IEntryFilter1, options?: any): AxiosPromise<Array<IEntryWithRelations>> {
+            return localVarFp.entryControllerFind(year, month, filter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1436,6 +1582,16 @@ export const EntryControllerApiFactory = function (configuration?: Configuration
         entryControllerUpdateById(id: string, iEntryPartial?: IEntryPartial, options?: any): AxiosPromise<void> {
             return localVarFp.entryControllerUpdateById(id, iEntryPartial, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryControllerUpdateTagsById(id: string, requestBody?: Array<string>, options?: any): AxiosPromise<void> {
+            return localVarFp.entryControllerUpdateTagsById(id, requestBody, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -1470,6 +1626,17 @@ export class EntryControllerApi extends BaseAPI {
 
     /**
      * 
+     * @param {Array<INewEntry>} [iNewEntry] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EntryControllerApi
+     */
+    public entryControllerCreateAll(iNewEntry?: Array<INewEntry>, options?: any) {
+        return EntryControllerApiFp(this.configuration).entryControllerCreateAll(iNewEntry, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1481,15 +1648,25 @@ export class EntryControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {number} [month] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EntryControllerApi
+     */
+    public entryControllerDownloadCsv(options?: any) {
+        return EntryControllerApiFp(this.configuration).entryControllerDownloadCsv(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {number} [year] 
+     * @param {number} [month] 
      * @param {IEntryFilter1} [filter] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof EntryControllerApi
      */
-    public entryControllerFind(month?: number, year?: number, filter?: IEntryFilter1, options?: any) {
-        return EntryControllerApiFp(this.configuration).entryControllerFind(month, year, filter, options).then((request) => request(this.axios, this.basePath));
+    public entryControllerFind(year?: number, month?: number, filter?: IEntryFilter1, options?: any) {
+        return EntryControllerApiFp(this.configuration).entryControllerFind(year, month, filter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1539,6 +1716,18 @@ export class EntryControllerApi extends BaseAPI {
      */
     public entryControllerUpdateById(id: string, iEntryPartial?: IEntryPartial, options?: any) {
         return EntryControllerApiFp(this.configuration).entryControllerUpdateById(id, iEntryPartial, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {Array<string>} [requestBody] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EntryControllerApi
+     */
+    public entryControllerUpdateTagsById(id: string, requestBody?: Array<string>, options?: any) {
+        return EntryControllerApiFp(this.configuration).entryControllerUpdateTagsById(id, requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1612,6 +1801,35 @@ export const EntryExpenseControllerApiAxiosParamCreator = function (configuratio
             if (where !== undefined) {
                 localVarQueryParameter['where'] = where;
             }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerDownloadCsv: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/expenses/download-data`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
 
     
@@ -1738,6 +1956,15 @@ export const EntryExpenseControllerApiFp = function(configuration?: Configuratio
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async entryExpenseControllerDownloadCsv(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.entryExpenseControllerDownloadCsv(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {{ [key: string]: object; }} [filter] 
          * @param {*} [options] Override http request option.
@@ -1788,6 +2015,14 @@ export const EntryExpenseControllerApiFactory = function (configuration?: Config
          */
         entryExpenseControllerDelete(id: string, where?: { [key: string]: object; }, options?: any): AxiosPromise<ILoopbackCount> {
             return localVarFp.entryExpenseControllerDelete(id, where, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        entryExpenseControllerDownloadCsv(options?: any): AxiosPromise<void> {
+            return localVarFp.entryExpenseControllerDownloadCsv(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1842,6 +2077,16 @@ export class EntryExpenseControllerApi extends BaseAPI {
      */
     public entryExpenseControllerDelete(id: string, where?: { [key: string]: object; }, options?: any) {
         return EntryExpenseControllerApiFp(this.configuration).entryExpenseControllerDelete(id, where, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EntryExpenseControllerApi
+     */
+    public entryExpenseControllerDownloadCsv(options?: any) {
+        return EntryExpenseControllerApiFp(this.configuration).entryExpenseControllerDownloadCsv(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1946,6 +2191,39 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
         },
         /**
          * 
+         * @param {Array<INewExpense>} [iNewExpense] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerCreateAll: async (iNewExpense?: Array<INewExpense>, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/expenses/multiple`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(iNewExpense, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1963,6 +2241,35 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
             }
 
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerDownloadCsv: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/expenses/download-csv`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -2210,6 +2517,39 @@ export const ExpenseControllerApiAxiosParamCreator = function (configuration?: C
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerResetLinkById: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('expenseControllerResetLinkById', 'id', id)
+            const localVarPath = `/expenses/{id}/reset-link`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {{ [key: string]: object; }} [where] 
          * @param {IExpensePartial} [iExpensePartial] 
          * @param {*} [options] Override http request option.
@@ -2315,12 +2655,31 @@ export const ExpenseControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {Array<INewExpense>} [iNewExpense] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async expenseControllerCreateAll(iNewExpense?: Array<INewExpense>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<IExpenseWithRelations>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerCreateAll(iNewExpense, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async expenseControllerDeleteById(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerDeleteById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async expenseControllerDownloadCsv(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerDownloadCsv(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2391,6 +2750,16 @@ export const ExpenseControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async expenseControllerResetLinkById(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.expenseControllerResetLinkById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {{ [key: string]: object; }} [where] 
          * @param {IExpensePartial} [iExpensePartial] 
          * @param {*} [options] Override http request option.
@@ -2441,12 +2810,29 @@ export const ExpenseControllerApiFactory = function (configuration?: Configurati
         },
         /**
          * 
+         * @param {Array<INewExpense>} [iNewExpense] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerCreateAll(iNewExpense?: Array<INewExpense>, options?: any): AxiosPromise<Array<IExpenseWithRelations>> {
+            return localVarFp.expenseControllerCreateAll(iNewExpense, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         expenseControllerDeleteById(id: string, options?: any): AxiosPromise<void> {
             return localVarFp.expenseControllerDeleteById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerDownloadCsv(options?: any): AxiosPromise<void> {
+            return localVarFp.expenseControllerDownloadCsv(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2510,6 +2896,15 @@ export const ExpenseControllerApiFactory = function (configuration?: Configurati
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        expenseControllerResetLinkById(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.expenseControllerResetLinkById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {{ [key: string]: object; }} [where] 
          * @param {IExpensePartial} [iExpensePartial] 
          * @param {*} [options] Override http request option.
@@ -2562,6 +2957,17 @@ export class ExpenseControllerApi extends BaseAPI {
 
     /**
      * 
+     * @param {Array<INewExpense>} [iNewExpense] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpenseControllerApi
+     */
+    public expenseControllerCreateAll(iNewExpense?: Array<INewExpense>, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerCreateAll(iNewExpense, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2569,6 +2975,16 @@ export class ExpenseControllerApi extends BaseAPI {
      */
     public expenseControllerDeleteById(id: string, options?: any) {
         return ExpenseControllerApiFp(this.configuration).expenseControllerDeleteById(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpenseControllerApi
+     */
+    public expenseControllerDownloadCsv(options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerDownloadCsv(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2641,6 +3057,17 @@ export class ExpenseControllerApi extends BaseAPI {
      */
     public expenseControllerReplaceById(id: string, iExpense?: IExpense, options?: any) {
         return ExpenseControllerApiFp(this.configuration).expenseControllerReplaceById(id, iExpense, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ExpenseControllerApi
+     */
+    public expenseControllerResetLinkById(id: string, options?: any) {
+        return ExpenseControllerApiFp(this.configuration).expenseControllerResetLinkById(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

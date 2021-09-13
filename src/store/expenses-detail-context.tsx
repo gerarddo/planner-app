@@ -10,7 +10,7 @@ const ExpensesDetailContext = createContext({
     updateIsFetching: (isFetching: boolean) => {},
     updateFetchMonth: (fetchMonth: number) => {},
     updateFetchYear: (fetchYear: number) => {},
-    updateEntries: (entries: any) => {}
+    updateEntries: () => {}
 })
 
 export function ExpensesDetailContextProvider(props: any){
@@ -21,6 +21,7 @@ export function ExpensesDetailContextProvider(props: any){
     const [fetchYear, setFetchYear] =  useState(today.getFullYear());
     const [fetchMonth, setFetchMonth] =  useState(today.getMonth());
     const [entries, setEntries] = useState([])
+    const entryController = new EntryControllerApi()
 
     function updateIsFetchingHandler(isFetching: boolean){
         setIsFetching(isFetching)
@@ -34,8 +35,14 @@ export function ExpensesDetailContextProvider(props: any){
         setFetchYear(fetchYear)
     }
 
-    function updateEntriesHandler(entries: any){
-        setEntries(entries)
+    function updateEntriesHandler(){
+        setIsFetching(true)
+        if(fetchYear !== 0 && fetchMonth !== 0){
+            entryController.entryControllerFind(fetchYear, fetchMonth).then((response: any) => {
+                setEntries(response.data)
+                setIsFetching(false)
+            });
+        }
     }
 
     const context = {

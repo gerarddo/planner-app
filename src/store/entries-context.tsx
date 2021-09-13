@@ -3,14 +3,14 @@ import { EntryControllerApi, IEntry } from '../api'
 import { useContext } from 'react';
 
 const EntriesContext = createContext({
-    fetching: false,
-    month: 0,
-    year: 2021,
+    isFetching: false,
+    fetchMonth: 0,
+    fetchYear: 2021,
     entries: [],
     updateIsFetching: (isFetching: boolean) => {},
     updateFetchMonth: (fetchMonth: number) => {},
     updateFetchYear: (fetchYear: number) => {},
-    updateEntriesList: (entriesList: any) => {}
+    updateEntries: () => {}
 })
 
 export function EntriesContextProvider(props: any){
@@ -20,7 +20,8 @@ export function EntriesContextProvider(props: any){
     const [isFetching, setIsFetching] =  useState(false);
     const [fetchYear, setFetchYear] =  useState(today.getFullYear());
     const [fetchMonth, setFetchMonth] =  useState(today.getMonth());
-    const [EntriesList, setEntriesList] = useState([])
+    const [entries, setEntries] = useState([])
+    const entryController = new EntryControllerApi()
 
     function updateIsFetchingHandler(isFetching: boolean){
         setIsFetching(isFetching)
@@ -34,19 +35,25 @@ export function EntriesContextProvider(props: any){
         setFetchYear(fetchYear)
     }
 
-    function updateEntriesListHandler(entriesList: any){
-        setEntriesList(entriesList)
+    function updateEntriesHandler(){
+        setIsFetching(true)
+        if(fetchYear !== 0 && fetchMonth !== 0){
+            entryController.entryControllerFind(fetchYear, fetchMonth).then((response: any) => {
+                setEntries(response.data)
+                setIsFetching(false)
+            });
+        }
     }
 
     const context = {
-        fetching: isFetching,
-        month: fetchMonth,
-        year: fetchYear,
-        entries: EntriesList,
+        isFetching: isFetching,
+        fetchMonth: fetchMonth,
+        fetchYear: fetchYear,
+        entries: entries,
         updateIsFetching: updateIsFetchingHandler,
         updateFetchMonth: updateFetchMonthHandler,
         updateFetchYear: updateFetchYearHandler,
-        updateEntriesList: updateEntriesListHandler
+        updateEntries: updateEntriesHandler
     };
 
     return <EntriesContext.Provider value={context}>{props.children}</EntriesContext.Provider>

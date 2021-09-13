@@ -1,8 +1,8 @@
 import { createContext, useState} from 'react';
-import { EntryControllerApi, IEntry } from '../api'
+import { ExpenseControllerApi, IEntry } from '../api'
 import { useContext } from 'react';
 
-const ExpensesDetailContext = createContext({
+const EntriesDetailContext = createContext({
     isFetching: false,
     fetchMonth: 0,
     fetchYear: 2021,
@@ -13,7 +13,7 @@ const ExpensesDetailContext = createContext({
     updateExpenses: (expenses: any) => {}
 })
 
-export function ExpensesDetailContextProvider(props: any){
+export function EntriesDetailContextProvider(props: any){
 
     let today = new Date()
 
@@ -49,7 +49,7 @@ export function ExpensesDetailContextProvider(props: any){
         updateExpenses: updateExpensesHandler
     };
 
-    return <ExpensesDetailContext.Provider value={context}>{props.children}</ExpensesDetailContext.Provider>
+    return <EntriesDetailContext.Provider value={context}>{props.children}</EntriesDetailContext.Provider>
 }
 
-export default ExpensesDetailContext
+export default EntriesDetailContext

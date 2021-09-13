@@ -1,26 +1,33 @@
 import { Box, Button } from "@material-ui/core";
 import React, { useEffect, useState } from 'react';
-import EntriesDrawerContext from "../../../store/entries-drawer-context";
-import EntriesDetailContext from "../../../store/entries-detail-context";
+import EntryDrawerContext from "../../../store/entries-drawer-context";
+import EntryDetailContext from "../../../store/entries-detail-context";
 import { useContext } from 'react';
+import './OpenEntryDetailButton.css';
 
 export default function OpenEntryDetailButton(props: any){
-    let anchor = 'bottom'
+    
+    const anchor = 'bottom'
+    const drawerCtx = useContext(EntryDrawerContext)
+    const detailCtx = useContext(EntryDetailContext);
 
-    const drawerCtx = useContext(EntriesDrawerContext)
-    const detailCtx = useContext(EntriesDetailContext);
-
-    function updateExpenses(){
+    function updateEntries(){
+        detailCtx.updateExpenses(props.entry.expenses)
         drawerCtx.updateItem(props.entry)
-        detailCtx.updateFetchMonth((new Date(props.entry.ymd).getMonth()))
         drawerCtx.updateIsOpen(true)
-        detailCtx.updateIsFetching(true)
+        console.log(props.entry)
+    }
+
+    let btnText = 'UNLINK'
+
+    if(props.entry.expenses == undefined){
+        btnText = 'VIEW'
     }
 
     return(
         <React.Fragment key={anchor}>
             <div>
-                <Button onClick={updateExpenses}>LINK</Button>
+                <Button onClick={updateEntries}>{btnText}</Button>
             </div>
         </React.Fragment>
     )

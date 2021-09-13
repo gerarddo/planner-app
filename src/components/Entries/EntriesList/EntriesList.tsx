@@ -7,30 +7,29 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from '../../common/Title/Title';
 import { useContext } from 'react';
 import OpenExpenseDetailButton from '../../common/OpenExpenseDetailButton/OpenExpenseDetailButton';
-import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
-import UnlinkedExpensesContext from '../../../store/unlinked-expenses-context';
+import EntriesContext from '../../../store/entries-context';
 import Divider from '@material-ui/core/Divider';
+import OpenEntryDetailButton from '../../common/OpenEntryDetailButton/OpenEntryDetailButton';
 
-export default function UnlinkedExpensesList(props: any) {
+export default function EntriesList(props: any) {
 
-  const [expenses, setExpenses] = useState([])
-  const expenseCtx = useContext(UnlinkedExpensesContext);
+  const [entries, setEntries] = useState([])
+  const entryCtx = useContext(EntriesContext);
 
   useEffect(() => {
-    setExpenses(expenseCtx.expenses)
-  }, [expenseCtx.expenses]);
+    setEntries(entryCtx.entries)
+  }, [entryCtx.entries]);
 
   function conditionalComponent(){
-    if(expenses.length == 0){
+    if(entries.length == 0){
       return(
         <div>      
           <Divider variant="middle" />
-          <p>No expenses found.</p>
+          <p>No entries found.</p>
         </div>
       )
     } else {
       return(
-
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -43,7 +42,7 @@ export default function UnlinkedExpensesList(props: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {expenses.map((row: any) => (
+            {entries.map((row: any) => (
               <TableRow key={row.id}>
                 <TableCell>{row.ymd}</TableCell>
                 <TableCell>{row.description}</TableCell>
@@ -51,7 +50,7 @@ export default function UnlinkedExpensesList(props: any) {
                 <TableCell align="right">{row.inflow}</TableCell>
                 <TableCell align="right">{row.outflow}</TableCell>
                 <TableCell align="right">
-                  <OpenExpenseDetailButton expense={row}></OpenExpenseDetailButton>
+                  <OpenEntryDetailButton entry={row} ></OpenEntryDetailButton>
                 </TableCell>
               </TableRow>
             ))}
