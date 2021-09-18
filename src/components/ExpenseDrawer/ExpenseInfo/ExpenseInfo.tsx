@@ -13,6 +13,8 @@ import { IExpense } from '../../../api';
 import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
 import { Box, Button } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import AddTagButton from '../../common/AddTagButton/AddTagButton';
+import EditTagList from '../../common/EditTagList/EditTagList';
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 275,
@@ -79,16 +81,6 @@ export default function ExpenseInfo(props: any) {
     }
   }, [drawerCtx.item]);
 
-  const testTags = ['to-be-paid','bank','living-costs']
-  const top10Tags = testTags
-  
-  const handleRemoveTag = () => {
-    console.log('tag is about to be removed')
-  }
-  const handleAddTag = () => {
-    console.log('heyyy im adding a taag')
-  }
-
   return (
     <React.Fragment>
       <Container>
@@ -112,40 +104,8 @@ export default function ExpenseInfo(props: any) {
               </Grid>
             </Grid>
             <Grid item xs={5}  container className={classes.gridLeftBorder}>
-              <Grid item xs={12} style={{ paddingTop: 0 }}>
-              <div style={{ width: 300 }}>
-                <Autocomplete
-                  freeSolo
-                  options={top10Tags}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Add tag"
-                      margin="normal"
-                    />
-                  )}
-                />
-                <Box>
-                  <Button className='closeButton' onClick={handleAddTag}>
-                    <AddCircleOutlineIcon></AddCircleOutlineIcon>
-                  </Button>
-                </Box>
-                </div>
-              </Grid>
-              <Grid item xs={12}>
-                <div className={classes.chipContainer}>
-                  {
-                    testTags.map((tag: string) => {
-                      return (
-                        <Chip
-                          label={tag}
-                          color="primary"
-                          onDelete={handleRemoveTag}
-                        />
-                      )
-                    })
-                  }
-                </div>
+              <Grid item xs={12} style={{width:'100%'}}>
+                <EditTagList type={'expense'}></EditTagList>
               </Grid>
             </Grid>
           </Grid>

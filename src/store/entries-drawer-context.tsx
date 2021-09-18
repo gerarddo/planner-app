@@ -1,5 +1,5 @@
 import { createContext, useState} from 'react';
-import { IEntry } from '../api';
+import { EntryControllerApi, ExpenseControllerApi, IEntry } from '../api';
 
 const mockItem: IEntry = {
     id: '',
@@ -15,27 +15,36 @@ const EntriesDrawerContext = createContext({
     isOpen: false,
     item: mockItem,
     updateIsOpen: (isOpen: boolean) => {},
-    updateItem: (item: object) => {}
+    openItem: (itemId: string) => {},
+    updateItem: (item: IEntry) => {}
 })
 
 export function EntriesDrawerContextProvider(props: any){
 
     const [isOpen, setIsOpen] = useState(false);
     const [item, setItem] = useState(mockItem);
+    const entryController = new EntryControllerApi()
 
     function updateIsOpenHandler(isOpen: boolean){
         setIsOpen(isOpen)
     }
 
-    function updateItemHandler(item: any){
+    function updateItemByIdHandler(itemId: string){
+        entryController.entryControllerFindById(itemId).then((item: any) => {
+            setItem(item.data)
+        })
+    }
+    function updateItemHandler(item: IEntry){
         setItem(item)
     }
+
 
     const context = {
         isOpen: isOpen,
         item: item,
         updateIsOpen: updateIsOpenHandler,
-        updateItem: updateItemHandler,
+        openItem: updateItemByIdHandler,
+        updateItem: updateItemHandler
     };
 
     return <EntriesDrawerContext.Provider value={context}>{props.children}</EntriesDrawerContext.Provider>

@@ -74,7 +74,7 @@ export default function EntryDrawer(props: any) {
           )
         }
         role="presentation"
-        onKeyDown={closeDrawer}
+        // onKeyDown={closeDrawer}
         >
         <br/>
         <Container>

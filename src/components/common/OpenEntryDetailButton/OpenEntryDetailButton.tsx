@@ -13,9 +13,8 @@ export default function OpenEntryDetailButton(props: any){
 
     function updateEntries(){
         detailCtx.updateExpenses(props.entry.expenses)
-        drawerCtx.updateItem(props.entry)
+        drawerCtx.openItem(props.entry.id)
         drawerCtx.updateIsOpen(true)
-        console.log(props.entry)
     }
 
     let btnText = 'UNLINK'

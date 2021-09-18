@@ -13,7 +13,7 @@ export default function OpenExpenseDetailButton(props: any){
     const expenseIsLinked = props.expense.entryId!= undefined
 
     function updateEntries(){
-        drawerCtx.updateItem(props.expense)
+        drawerCtx.openItem(props.expense.id)
         drawerCtx.updateIsOpen(true)
         // TODO: set right fetch month and year
         detailCtx.updateEntries()
