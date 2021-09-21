@@ -4,7 +4,7 @@ import { ExpenseControllerApi } from '../../../../api';
 import { useContext, useEffect, useState } from 'react';
 import ExpensesContext  from '../../../../store/expenses-context'
 import ExpensesDrawerContext from '../../../../store/expenses-drawer-context';
-import './EntryLinkButton.css';
+
 
 export default function EntryLinkButton(props: any) {
 
@@ -40,6 +40,7 @@ export default function EntryLinkButton(props: any) {
         } else {
             linkEntry(props.entryId)
         }
+        drawerCtx.updateIsOpen(false)
     }
     
     let btnText = 'LINK'

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import { useContext } from 'react';
@@ -9,7 +9,9 @@ import EntriesContext from '../../store/entries-context';
 import MenuDrawerContext from '../../store/menu-drawer-context';
 import {EntryControllerApi} from '../../api'
 import * as XLSX from 'xlsx';
-
+import { Grid, IconButton } from '@material-ui/core';
+import DownloadIcon from '@material-ui/icons/CloudDownloadRounded';
+import { CSVLink } from 'react-csv'
 function preventDefault(event: any) {
   event.preventDefault();
 }
@@ -35,7 +37,9 @@ export default function Entries() {
     const classes = useStyles();
     const ctx = useContext(EntriesContext);
     const menuCtx = useContext(MenuDrawerContext);
+    const csvLinkRef = useRef<CSVLink & HTMLAnchorElement & { link: HTMLAnchorElement }>(null); // setup the ref that we'll use for the hidden CsvLink click once we've updated the data
     const entryController = new EntryControllerApi();
+    const [transactionData, setTransactionData] = useState([])
 
     useEffect(() => {
         ctx.updateEntries()
@@ -46,6 +50,15 @@ export default function Entries() {
         ctx.updateFetchMonth(pageNum - 1)
         setFetchMonth(pageNum - 1)
         setPage(pageNum)
+    }
+
+    function onHandleDownload(){
+      entryController.entryControllerDownloadCsv().then((response: any) => {
+        setTransactionData(response.data)
+        if (csvLinkRef?.current) {
+          csvLinkRef.current.link.click();
+        }
+      })
     }
 
     function refreshPage() { window.location.reload()};
@@ -80,14 +93,32 @@ export default function Entries() {
 
     return(
         <React.Fragment>
-            <div>
-              <p>Upload CSV file</p>
-              <input
-                type="file"
-                accept=".csv,.xlsx,.xls"
-                onChange={handleFileUpload}
-              />
-            </div>
+          <Grid container >
+            <Grid item xs={6}>
+              <div>
+                <p>Upload CSV file</p>
+                <input
+                  type="file"
+                  accept=".csv,.xlsx,.xls"
+                  onChange={handleFileUpload}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+            <IconButton aria-label="delete" onClick={onHandleDownload}>
+                <DownloadIcon />
+              </IconButton>
+                <CSVLink
+                  data={transactionData}
+                  filename='entries.csv'
+                  className='hidden'
+                  ref={csvLinkRef}
+                  target='_blank'
+                />
+            </Grid>
+          </Grid>
+          <Grid container style={{marginTop : 20}}>
+            <br />
             <Pagination page={page} count={pageCount} color="secondary" onChange={monthEntriesUpdate}/>
             <EntriesList year={2021} month={fetchMonth}></EntriesList>
             <div className={classes.seeMore}>
@@ -99,6 +130,7 @@ export default function Entries() {
                 </Link>
             </div> 
             <EntryDrawer></EntryDrawer>
+            </Grid> 
         </React.Fragment>
     )
 }
