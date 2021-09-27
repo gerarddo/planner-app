@@ -1,5 +1,5 @@
 
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { ExpenseControllerApi } from '../../../../api';
 import { useContext, useEffect, useState } from 'react';
 import ExpensesContext  from '../../../../store/expenses-context'

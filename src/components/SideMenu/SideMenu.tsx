@@ -1,17 +1,17 @@
-import Drawer from '@material-ui/core/Drawer';
+import Drawer from '@mui/material/Drawer';
 import React, { useContext, useEffect } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import { IconButton } from '@material-ui/core';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import { makeStyles } from '@mui/styles';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import { IconButton } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MenuDrawerContext from '../../store/menu-drawer-context';
 import { mainListItems, secondaryListItems } from './ListItems/ListItems';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
     toolbarIcon: {
       display: 'flex',
       alignItems: 'center',
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function SideMenu(props: any){
+    // @ts-ignore
     const classes = useStyles();
     const [menuIsOpen, setMenuIsOpen] = React.useState(false);
     const drawerCtx = useContext(MenuDrawerContext);

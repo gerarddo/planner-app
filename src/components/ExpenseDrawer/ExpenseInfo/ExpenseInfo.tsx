@@ -1,21 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import CalendarIcon from '../../common/CalendarIcon/CalendarIcon';
 import Title from '../../common/Title/Title';
-import Chip from '@material-ui/core/Chip';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import { IExpense } from '../../../api';
 import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
-import { Box, Button } from '@material-ui/core';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import AddTagButton from '../../common/AddTagButton/AddTagButton';
 import EditTagList from '../../common/EditTagList/EditTagList';
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   root: {
     minWidth: 275,
   },
@@ -64,6 +58,7 @@ export default function ExpenseInfo(props: any) {
     outflow: 0
   }
 
+  // @ts-ignore
   const classes = useStyles();
   const [expense, setExpense] = useState(mockExpense)
   const [flows, setFlows] = useState(0)

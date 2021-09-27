@@ -1,15 +1,13 @@
-import { Box, Button, Chip, Grid, makeStyles, TextField } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
+import { Box, Button, Chip, Grid, TextField } from "@mui/material";
+import { Autocomplete } from "@mui/material";
+import { makeStyles } from "@mui/styles"
 import { useContext, useEffect, useState } from "react";
-import { EntryControllerApi, ExpenseControllerApi, IEntry, IExpense } from "../../../api";
-import EntriesContext from "../../../store/entries-context";
+import { EntryControllerApi, ExpenseControllerApi } from "../../../api";
 import EntriesDrawerContext from "../../../store/entries-drawer-context";
-import ExpensesContext from "../../../store/expenses-context";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ExpensesDrawerContext from "../../../store/expenses-drawer-context";
-import AddTagButton from "../AddTagButton/AddTagButton";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
     chipContainer: {
       display: 'flex',
       justifyContent: 'left',
@@ -35,6 +33,7 @@ export default function EditTagList(props: any) {
 
     // TODO: update top10Tags later to include ML selected options
     const top10Tags = ['to-be-paid','bank','living-costs']
+
     const classes = useStyles();
     const entriesDrawerCtx = useContext(EntriesDrawerContext);
     const expensesDrawerCtx = useContext(ExpensesDrawerContext);
@@ -89,7 +88,9 @@ export default function EditTagList(props: any) {
     return (
         <div>
             <Grid container  >
-                <Grid container item justify="flex-start">
+                <Grid container item 
+                // justify={"flex-start"}
+                >
                     <Grid item style={{ width: '80%' }}>
                         <Autocomplete
                             key={hackyHide}

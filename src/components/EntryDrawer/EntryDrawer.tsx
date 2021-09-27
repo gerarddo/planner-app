@@ -1,17 +1,14 @@
 import React, { useEffect, useState }  from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import { makeStyles } from '@mui/styles';
+import Drawer from '@mui/material/Drawer';
 import { useContext } from 'react';
 import EntryInfo from './EntryInfo/EntryInfo'
-import CancelSharpIcon from '@material-ui/icons/CancelSharp';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { Box, Button } from "@material-ui/core";
+import CancelSharpIcon from '@mui/icons-material/CancelSharp';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import { Box, Button } from "@mui/material";
 import UnlinkList from './UnlinkList/UnlinkList';
-import ExpensesDetailContext from '../../store/expenses-detail-context';
-import ExpensesDrawerContext from '../../store/expenses-drawer-context';
-import { EntryControllerApi } from '../../api'
 import EntriesDrawerContext from '../../store/entries-drawer-context';
 
 
@@ -23,7 +20,7 @@ export default function EntryDrawer(props: any) {
   type Anchor = 'top' | 'left' | 'bottom' | 'right';
   const anchor: Anchor = 'bottom'
 
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles((theme: any) => ({
     list: {
       width: 250,
     },
@@ -44,6 +41,7 @@ export default function EntryDrawer(props: any) {
     }
   }));
 
+  // @ts-ignore
   const classes = useStyles();
 
   const closeDrawer =( event: React.KeyboardEvent | React.MouseEvent, ) => {
@@ -78,7 +76,9 @@ export default function EntryDrawer(props: any) {
         >
         <br/>
         <Container>
-          <Grid item xs={12} container justify="flex-end">
+          <Grid item xs={12} container 
+          // justify="flex-end"
+          >
             <Box>
               <Button onClick={closeDrawer} className='closeButton' >
               <CancelSharpIcon ></CancelSharpIcon>

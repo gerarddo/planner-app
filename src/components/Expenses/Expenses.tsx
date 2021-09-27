@@ -1,24 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+import Link from '@mui/material/Link';
+import { makeStyles } from '@mui/styles';
 import { useContext } from 'react';
-import Pagination from '@material-ui/lab/Pagination';
+import Pagination from '@mui/material/Pagination';
 import ExpensesList from './ExpensesList/ExpensesList';
 import ExpenseDrawer from '../ExpenseDrawer/ExpenseDrawer'
 import ExpensesContext from '../../store/expenses-context';
 import MenuDrawerContext from '../../store/menu-drawer-context';
 import * as XLSX from 'xlsx';
 import { ExpenseControllerApi } from '../../api'
-import { Grid, IconButton } from '@material-ui/core';
-import DownloadIcon from '@material-ui/icons/CloudDownloadRounded';
+import { Grid, IconButton, Paper } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/CloudDownloadRounded';
 import { CSVLink, CSVDownload } from "react-csv";
-
-
+import ExpensesBar from './ExpensesBar/ExpensesBar';
 function preventDefault(event: any) {
   event.preventDefault();
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   root: {
     '& > *': {
       marginTop: theme.spacing(2),
@@ -26,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
   },
   seeMore: {
     marginTop: theme.spacing(3),
+  },
+  paper: {
+    padding: theme.spacing(0),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
   }
 }));
 
@@ -36,6 +41,7 @@ export default function Expenses() {
     const pageCount = today.getMonth()+1
     const [fetchMonth, setFetchMonth] = useState(1);
     const [page, setPage] = useState(pageCount);
+    // @ts-ignore
     const classes = useStyles();
     const ctx = useContext(ExpensesContext);
     const menuCtx = useContext(MenuDrawerContext);
@@ -53,6 +59,7 @@ export default function Expenses() {
         setFetchMonth(pageNum - 1)
         setPage(pageNum)
     }
+
     function onHandleDownload(){
       expenseController.expenseControllerDownloadCsv().then((response: any) => {
         setTransactionData(response.data)
@@ -94,44 +101,24 @@ export default function Expenses() {
 
     return(
         <React.Fragment>
-          <Grid container>
-            <Grid item xs={6}>
-              <div>
-                <p>Upload CSV file</p>
-                <input
-                  type="file"
-                  accept=".csv,.xlsx,.xls"
-                  onChange={handleFileUpload}
-                />
-              </div>
+          <Paper className={classes.paper}>
+            <Grid container>
+              <ExpensesBar></ExpensesBar>
             </Grid>
-            <Grid item xs={6}>
-              <IconButton aria-label="delete" onClick={onHandleDownload}>
-                <DownloadIcon />
-              </IconButton>
-                <CSVLink
-                  data={transactionData}
-                  filename='expenses.csv'
-                  className='hidden'
-                  ref={csvLinkRef}
-                  target='_blank'
-                />
-            </Grid>
-          </Grid>
-          <Grid container style={{marginTop : 20}}>
-            <br />
-            <Pagination  page={page} count={pageCount} color="secondary" onChange={monthExpensesUpdate}/>
-            <ExpensesList year={2021} month={fetchMonth}></ExpensesList>
-            <div className={classes.seeMore}>
-                <div className={classes.root}>
-                    <Pagination page={page} count={pageCount} color="secondary" onChange={monthExpensesUpdate}/>
-                </div>
-                <Link color="primary" href="#" onClick={preventDefault}>
-                See more Expenses 
-                </Link>
-            </div> 
-            <ExpenseDrawer></ExpenseDrawer>
-            </Grid>
+            <Grid container style={{marginTop : 20}}>
+              <br />
+              <ExpensesList year={2021} month={fetchMonth}></ExpensesList>
+              <div className={classes.seeMore}>
+                  <div className={classes.root}>
+
+                  </div>
+                  <Link color="primary" href="#" onClick={preventDefault}>
+                  See more Expenses 
+                  </Link>
+              </div> 
+              <ExpenseDrawer></ExpenseDrawer>
+              </Grid>
+            </Paper>
         </React.Fragment>
     )
 }

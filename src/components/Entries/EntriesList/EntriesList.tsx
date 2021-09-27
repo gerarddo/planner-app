@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import Title from '../../common/Title/Title';
 import { useContext } from 'react';
 import OpenExpenseDetailButton from '../../common/OpenExpenseDetailButton/OpenExpenseDetailButton';
 import EntriesContext from '../../../store/entries-context';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 import OpenEntryDetailButton from '../../common/OpenEntryDetailButton/OpenEntryDetailButton';
+import DeleteEntryButton from './DeleteEntryButton/DeleteEntryButton';
+import EditEntryButton from './EditEntryButton/EditEntryButton';
+import { Grid } from '@mui/material';
 
 export default function EntriesList(props: any) {
 
@@ -33,6 +36,7 @@ export default function EntriesList(props: any) {
         <Table size="small">
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Payment Method</TableCell>
@@ -44,6 +48,16 @@ export default function EntriesList(props: any) {
           <TableBody>
             {entries.map((row: any) => (
               <TableRow key={row.id}>
+                <TableCell>
+                  <Grid container>
+                    <Grid item>
+                      <DeleteEntryButton></DeleteEntryButton>
+                    </Grid>
+                    <Grid item>
+                      <EditEntryButton></EditEntryButton>
+                    </Grid>
+                  </Grid>
+                </TableCell>
                 <TableCell>{row.ymd}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.method}</TableCell>
@@ -56,7 +70,6 @@ export default function EntriesList(props: any) {
             ))}
           </TableBody>
         </Table>
-
       )
     }
   }

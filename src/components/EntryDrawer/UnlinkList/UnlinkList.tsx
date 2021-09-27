@@ -1,11 +1,11 @@
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import ExpenseUnlinkButton from './ExpenseUnlinkButton/ExpenseUnlinkButton';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import { useContext } from 'react';
 import React, { useEffect, useState } from 'react';
 import ExpensesDetailContext from '../../../store/expenses-detail-context';

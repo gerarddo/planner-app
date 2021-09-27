@@ -11,8 +11,13 @@ import {ExpensesDrawerContextProvider} from './store/expenses-drawer-context';
 import {MenuDrawerContextProvider} from './store/menu-drawer-context'
 import {EntriesDrawerContextProvider} from './store/entries-drawer-context';
 import {EntriesDetailContextProvider} from './store/entries-detail-context';
+import { ThemeProvider, createTheme } from '@mui/material';
+
+const theme = createTheme({})
+
 ReactDOM.render(
 
+  <ThemeProvider theme={theme}>
     <ExpensesContextProvider>
       <EntriesContextProvider>
         <ExpensesDetailContextProvider>
@@ -30,6 +35,9 @@ ReactDOM.render(
         </ExpensesDetailContextProvider>
       </EntriesContextProvider>
     </ExpensesContextProvider>
+  </ThemeProvider>
+
+
   ,
   document.getElementById('root')
 );

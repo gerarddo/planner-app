@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import Title from '../../common/Title/Title';
 import { useContext } from 'react';
 import OpenExpenseDetailButton from '../../common/OpenExpenseDetailButton/OpenExpenseDetailButton';
 import ExpensesContext from '../../../store/expenses-context';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
+import DeleteExpenseButton from './DeleteExpenseButton/DeleteExpenseButton';
+import { Grid } from '@mui/material';
+import EditExpenseButton from './EditExpenseButton/EditExpenseButton';
 
 export default function ExpensesList(props: any) {
 
@@ -33,23 +36,34 @@ export default function ExpensesList(props: any) {
         <Table size="small">
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Payment Method</TableCell>
               <TableCell align="right">Inflows</TableCell>
               <TableCell align="right">Outflows</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {expenses.map((row: any) => (
               <TableRow key={row.id}>
+                <TableCell>
+                  <Grid container>
+                    <Grid item>
+                      <DeleteExpenseButton></DeleteExpenseButton>
+                    </Grid>
+                    <Grid item>
+                      <EditExpenseButton></EditExpenseButton>
+                    </Grid>
+                  </Grid>
+                </TableCell>
                 <TableCell>{row.ymd}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.method}</TableCell>
                 <TableCell align="right">{row.inflow}</TableCell>
                 <TableCell align="right">{row.outflow}</TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <OpenExpenseDetailButton expense={row} highlighted={row.entryId !== undefined}></OpenExpenseDetailButton>
                 </TableCell>
               </TableRow>

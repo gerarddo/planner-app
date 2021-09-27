@@ -1,4 +1,4 @@
-import { Box, Button } from "@material-ui/core";
+import { Box, Button } from "@mui/material";
 import React, { useEffect, useState } from 'react';
 import ExpensesDrawerContext from "../../../store/expenses-drawer-context";
 import ExpensesDetailContext from "../../../store/expenses-detail-context";

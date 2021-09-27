@@ -1,13 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { AppBar, Badge, Box, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles } from '@material-ui/core/styles';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import { AppBar, Badge, Box, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import MenuIcon from '@mui/material/Menu';
+import { makeStyles } from '@mui/styles';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import SideMenu from './components/SideMenu/SideMenu';
 import './App.css';
-import Dashboard from './components/Dashboard'
-import Deposits from './components/Deposits';
 import MenuDrawerContext from './store/menu-drawer-context';
 import clsx from 'clsx';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
@@ -15,8 +13,7 @@ import Expenses from './components/Expenses/Expenses';
 import Entries from './components/Entries/Entries';
 const drawerWidth = 240;
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   root: {
     display: 'flex',
   },
@@ -65,10 +62,11 @@ const useStyles = makeStyles((theme) => ({
   },
   fixedHeight: {
     height: 240,
-  },
+  }
 }));
 
 function App() {
+
 
   const classes = useStyles();
   const [menuIsOpen, setMenuIsOpen] = React.useState(false);
@@ -99,7 +97,7 @@ function App() {
               onClick={handleDrawerOpen}
               className={clsx(classes.menuButton, menuIsOpen && classes.menuButtonHidden)}
             >
-              <MenuIcon />
+              <MenuIcon open={menuIsOpen}/>
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               {tabTitle}
@@ -119,13 +117,11 @@ function App() {
             <Container maxWidth="lg" className={classes.container}>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
-                  <Paper className={classes.paper}>
                   <Switch>
                       <Route exact path='/' component={Expenses} />
                       <Route exact path='/expenses' component={Expenses} />
                       <Route exact path='/entries' component={Entries} />
                   </Switch>
-                  </Paper>
                 </Grid>
               </Grid>
             </Container>
