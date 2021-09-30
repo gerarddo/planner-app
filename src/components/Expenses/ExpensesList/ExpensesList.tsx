@@ -9,9 +9,9 @@ import { useContext } from 'react';
 import OpenExpenseDetailButton from '../../common/OpenExpenseDetailButton/OpenExpenseDetailButton';
 import ExpensesContext from '../../../store/expenses-context';
 import Divider from '@mui/material/Divider';
-import DeleteExpenseButton from './DeleteExpenseButton/DeleteExpenseButton';
+import DeleteExpenseButton from '../../common/DeleteExpenseButton/DeleteExpenseButton';
 import { Grid } from '@mui/material';
-import EditExpenseButton from './EditExpenseButton/EditExpenseButton';
+import EditExpenseButton from '../../common/EditExpenseButton/EditExpenseButton';
 
 export default function ExpensesList(props: any) {
 
@@ -37,6 +37,7 @@ export default function ExpensesList(props: any) {
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
+              <TableCell>ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Payment Method</TableCell>
@@ -51,13 +52,14 @@ export default function ExpensesList(props: any) {
                 <TableCell>
                   <Grid container>
                     <Grid item>
-                      <DeleteExpenseButton></DeleteExpenseButton>
+                      <DeleteExpenseButton idExpense={row.id}></DeleteExpenseButton>
                     </Grid>
                     <Grid item>
                       <EditExpenseButton></EditExpenseButton>
                     </Grid>
                   </Grid>
                 </TableCell>
+                <TableCell>{row.id}</TableCell>
                 <TableCell>{row.ymd}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.method}</TableCell>

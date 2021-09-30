@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { IconButton, Pagination } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EntriesContext from '../../../../store/entries-context';
+import ExpensesContext from '../../../../store/expenses-context';
 
 
 export default function EntriesPagination() {
@@ -12,7 +12,7 @@ export default function EntriesPagination() {
 
     const [fetchMonth, setFetchMonth] = useState(1);
     const [page, setPage] = useState(pageCount);
-    const ctx = useContext(EntriesContext);
+    const ctx = useContext(ExpensesContext);
 
     function monthEntriesUpdate(ev: object, pageNum: number){
         ctx.updateFetchMonth(pageNum - 1)

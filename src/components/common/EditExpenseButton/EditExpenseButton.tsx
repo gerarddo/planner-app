@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import {ExpenseControllerApi} from '../../../../api'
+import {ExpenseControllerApi} from '../../../api'
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
 export default function EditExpenseButton() {

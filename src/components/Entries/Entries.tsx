@@ -50,23 +50,15 @@ export default function Entries() {
         menuCtx.updateTabTitle('All Entries')
     }, [ctx.fetchMonth]);
 
-    // function monthEntriesUpdate(ev: object, pageNum: number){
-    //     ctx.updateFetchMonth(pageNum - 1)
-    //     setFetchMonth(pageNum - 1)
-    //     setPage(pageNum)
-    // }
-
     return(
         <React.Fragment>
           <Paper className={classes.paper}>
             <EntriesBar></EntriesBar>
             <Grid container style={{marginTop : 20}}>
               <br />
-              {/* <Pagination page={page} count={pageCount} color="secondary" onChange={monthEntriesUpdate}/> */}
               <EntriesList year={2021} month={fetchMonth}></EntriesList>
               <div className={classes.seeMore}>
                   <div className={classes.root}>
-                      {/* <Pagination page={page} count={pageCount} color="secondary" onChange={monthEntriesUpdate}/> */}
                   </div>
                   <Link color="primary" href="#" onClick={preventDefault}>
                   See more Entries 

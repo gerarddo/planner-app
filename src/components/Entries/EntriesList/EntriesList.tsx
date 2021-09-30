@@ -10,9 +10,9 @@ import OpenExpenseDetailButton from '../../common/OpenExpenseDetailButton/OpenEx
 import EntriesContext from '../../../store/entries-context';
 import Divider from '@mui/material/Divider';
 import OpenEntryDetailButton from '../../common/OpenEntryDetailButton/OpenEntryDetailButton';
-import DeleteEntryButton from './DeleteEntryButton/DeleteEntryButton';
-import EditEntryButton from './EditEntryButton/EditEntryButton';
-import { Grid } from '@mui/material';
+import DeleteEntryButton from '../../common/DeleteEntryButton/DeleteEntryButton';
+import EditEntryButton from '../../common/EditEntryButton/EditEntryButton';
+import { Grid } from '@mui/material'; 
 
 export default function EntriesList(props: any) {
 
@@ -37,6 +37,7 @@ export default function EntriesList(props: any) {
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
+              <TableCell>ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Payment Method</TableCell>
@@ -51,13 +52,14 @@ export default function EntriesList(props: any) {
                 <TableCell>
                   <Grid container>
                     <Grid item>
-                      <DeleteEntryButton></DeleteEntryButton>
+                      <DeleteEntryButton idEntry={row.id}></DeleteEntryButton>
                     </Grid>
                     <Grid item>
-                      <EditEntryButton></EditEntryButton>
+                      <EditEntryButton idEntry={row.id}></EditEntryButton>
                     </Grid>
                   </Grid>
                 </TableCell>
+                <TableCell>{row.id}</TableCell>
                 <TableCell>{row.ymd}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.method}</TableCell>

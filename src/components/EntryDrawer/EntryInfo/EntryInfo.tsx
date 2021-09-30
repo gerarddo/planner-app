@@ -12,10 +12,19 @@ import Autocomplete from '@mui/material/Autocomplete';
 import EntriesDrawerContext from '../../../store/entries-drawer-context';
 import { EntryControllerApi, IEntry, IEntryPartial } from '../../../api';
 import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Card, CardContent } from '@mui/material';
 import AddTagButton from '../../common/AddTagButton/AddTagButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditTagList from '../../common/EditTagList/EditTagList';
+import DeleteEntryButton from '../../common/DeleteEntryButton/DeleteEntryButton';
+import EditEntryButton from '../../common/EditEntryButton/EditEntryButton';
+import EntryInfoDetail from './EntryInfoDetail/EntryInfoDetail';
+import EntryInfoEdit from './EntryInfoEdit/EntryInfoEdit';
+import CancelEditEntryButton from './CancelEditEntryButton/CancelEditEntryButton';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+
 const useStyles = makeStyles((theme: any) => ({
   root: {
     minWidth: 275,
@@ -65,12 +74,12 @@ export default function EntryInfo(props: any) {
   }
   const mockTags: string[] = []
 
-  // @ts-ignore
   const classes = useStyles();
   const [entry, setEntry] = useState(mockEntry)
   const [flows, setFlows] = useState(0)
   const [tags, setTags] = useState(mockTags)
-
+  const [onEdit, setOnEdit] =  useState(false)
+  const [date, setDate] = React.useState('');
 
   // TODO: to get the current EntryInfo entry might be more meaningful to retrieve from EntriesDetailContext
   const drawerCtx = useContext(EntriesDrawerContext);
@@ -86,34 +95,32 @@ export default function EntryInfo(props: any) {
     if(drawerCtx.item.tags){
       setTags(drawerCtx.item.tags)
     } 
-  }, [drawerCtx.item]);
+    if(drawerCtx.item.ymd){
+      setDate(drawerCtx.item.ymd)
+    }
+    setOnEdit(drawerCtx.onEdit)
+  }, [drawerCtx.item, drawerCtx.onEdit]);
+
+  const handleDelete = ( )=> {
+    drawerCtx.updateIsOpen(false)
+  }
 
   return (
     <React.Fragment>
       <Container>
         <Paper className={classes.paper}>
-          <Grid container spacing={3}>
-            <Grid item xs={3}  container>
-              <CalendarIcon ymd={entry.ymd}></CalendarIcon>
-            </Grid>
-            <Grid item xs={4} sm container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                  <h4>Entry information</h4>
-                  <Title>{entry.description}</Title>
-                  <Typography color="textSecondary" className={classes.depositContext}>
-                    {entry.method}
-                  </Typography>
-                  <Typography component="p" variant="h4">
-                    {flows} MXN
-                  </Typography>
+          <Grid container>
+            <Grid item container xs={7}>
+                <Grid item xs={11}>
+                  <EntryInfoDetail entry = {entry} flows = {flows}></EntryInfoDetail>
                 </Grid>
-              </Grid>
+                <Grid item xs={1}>
+                  <DeleteEntryButton callback={handleDelete} idEntry={entry.id}></DeleteEntryButton>
+                  <EditEntryButton></EditEntryButton>
+                </Grid>
             </Grid>
-            <Grid item xs={5}  container className={classes.gridLeftBorder}>
-              <Grid item xs={12} style={{width:'100%'}}>
-                <EditTagList type={'entry'}></EditTagList>
-              </Grid>
+            <Grid item xs={5}>
+              <EditTagList type={'entry'}></EditTagList>
             </Grid>
           </Grid>
         </Paper>
@@ -121,3 +128,4 @@ export default function EntryInfo(props: any) {
     </React.Fragment>
   );
 }
+

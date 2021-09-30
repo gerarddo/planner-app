@@ -53,6 +53,7 @@ export default function EntryDrawer(props: any) {
         return;
       }
       drawerCtx.updateIsOpen(false)
+      drawerCtx.updateOnEdit(false)
   };
 
   useEffect(() => {      

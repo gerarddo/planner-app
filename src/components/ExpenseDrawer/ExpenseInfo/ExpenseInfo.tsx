@@ -9,6 +9,10 @@ import Title from '../../common/Title/Title';
 import { IExpense } from '../../../api';
 import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
 import EditTagList from '../../common/EditTagList/EditTagList';
+import EditExpenseButton from '../../common/EditExpenseButton/EditExpenseButton';
+import DeleteExpenseButton from '../../common/DeleteExpenseButton/DeleteExpenseButton';
+import ExpenseInfoDetail from './ExpenseInfoDetail/ExpenseInfoDetail';
+
 const useStyles = makeStyles((theme: any) => ({
   root: {
     minWidth: 275,
@@ -76,32 +80,27 @@ export default function ExpenseInfo(props: any) {
     }
   }, [drawerCtx.item]);
 
+  const handleDelete = ( )=> {
+    drawerCtx.updateIsOpen(false)
+  }
+
+
   return (
     <React.Fragment>
       <Container>
         <Paper className={classes.paper}>
-          <Grid container spacing={3}>
-            <Grid item xs={3}  container>
-              <CalendarIcon ymd={expense.ymd}></CalendarIcon>
-            </Grid>
-            <Grid item xs={4} sm container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                  <h4>Expense information</h4>
-                  <Title>{expense.description}</Title>
-                  <Typography color="textSecondary" className={classes.depositContext}>
-                    {expense.method}
-                  </Typography>
-                  <Typography component="p" variant="h4">
-                    {flows} MXN
-                  </Typography>
+          <Grid container>
+            <Grid item container xs={7}>
+                <Grid item xs={11}>
+                  <ExpenseInfoDetail expense = {expense} flows = {flows}></ExpenseInfoDetail>
                 </Grid>
-              </Grid>
+                <Grid item xs={1}>
+                  <DeleteExpenseButton callback={handleDelete} idExpense={expense.id}></DeleteExpenseButton>
+                  <EditExpenseButton></EditExpenseButton>
+                </Grid>
             </Grid>
-            <Grid item xs={5}  container className={classes.gridLeftBorder}>
-              <Grid item xs={12} style={{width:'100%'}}>
-                <EditTagList type={'expense'}></EditTagList>
-              </Grid>
+            <Grid item xs={5}>
+              <EditTagList type={'expense'}></EditTagList>
             </Grid>
           </Grid>
         </Paper>

@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Grid, TextField } from "@mui/material";
+import { Box, Button, Card, CardContent, Chip, Grid, Paper, TextField, Typography } from "@mui/material";
 import { Autocomplete } from "@mui/material";
 import { makeStyles } from "@mui/styles"
 import { useContext, useEffect, useState } from "react";
@@ -15,7 +15,13 @@ const useStyles = makeStyles((theme: any) => ({
       '& > *': {
         margin: theme.spacing(0.5),
       },
-    }
+    },
+    paper: {
+        padding: theme.spacing(2),
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column'
+      }
   }));
 export default function EditTagList(props: any) {
 
@@ -86,54 +92,60 @@ export default function EditTagList(props: any) {
     }
 
     return (
-        <div>
-            <Grid container  >
-                <Grid container item 
-                // justify={"flex-start"}
-                >
-                    <Grid item style={{ width: '80%' }}>
-                        <Autocomplete
-                            key={hackyHide}
-                            freeSolo
-                            clearOnEscape
-                            options={top10Tags}
-                            onInputChange={handleEditTag}
-                            value={currentTag}
-                            renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label="Add tag"
-                                margin="normal"
-                                onChange={(hey) => {console.log(hey)}}
-                                onKeyDown={e => {
-                                    if (e.keyCode === 13 && currentTag && currentTag !== '') {
-                                        handleSaveTag()
-                                    }
-                                }}
-                            />
-                            )}
-                        />
-                    </Grid>
-                    <Button style={{ width: '20%' }} className='closeButton' onClick={handleSaveTag} >
-                        <AddCircleOutlineIcon></AddCircleOutlineIcon>
-                    </Button>
-                </Grid>
-            </Grid>
-            <Grid container xs={12}>
-                <div className={classes.chipContainer}>
-                    {
-                    item.tags.map((tag: string) => {
-                        return (
-                        <Chip
-                            label={tag}
-                            color="primary"
-                            onDelete={handleRemoveTag(tag)}
-                        />
-                        )
-                    })
-                    }
-                </div>
-            </Grid>
-        </div>
+
+<div>
+
+<Grid container  >
+    <Grid container item >
+        <Grid item style={{ width: '80%' }}>
+            <Autocomplete
+                
+                key={hackyHide}
+                freeSolo
+                clearOnEscape
+                options={top10Tags}
+                onInputChange={handleEditTag}
+                value={currentTag}
+                renderInput={(params) => (
+                <TextField
+                    style={{backgroundColor: 'white'}}
+                    {...params}
+                    label="Add tag"
+                    margin="normal"
+                    onChange={(hey) => {console.log(hey)}}
+                    onKeyDown={e => {
+                        if (e.keyCode === 13 && currentTag && currentTag !== '') {
+                            handleSaveTag()
+                        }
+                    }}
+                />
+                )}
+            />
+        </Grid>
+        <Button style={{ width: '20%' }} className='closeButton' onClick={handleSaveTag} >
+            <AddCircleOutlineIcon></AddCircleOutlineIcon>
+        </Button>
+    </Grid>
+</Grid>
+<Grid container xs={12}>
+    <div className={classes.chipContainer}>
+        {
+        item.tags.map((tag: string) => {
+            return (
+            <Chip
+                label={tag}
+                color="primary"
+                onDelete={handleRemoveTag(tag)}
+                style={{margin: 1}}
+            />
+            )
+        })
+        }
+    </div>
+</Grid>
+
+</div>
+
+
     )
 }
