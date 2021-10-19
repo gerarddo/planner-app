@@ -1,17 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {ExpenseControllerApi} from '../../../api'
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
-export default function EditExpenseButton() {
+import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
+export default function EditExpenseButton(props: any) {
 
-
-
-    const expenseController = new ExpenseControllerApi();
-
+    const drawerCtx = useContext(ExpensesDrawerContext);
 
     function onHandleEdit(){
-        // expenseController.expenseControllerDownloadCsv().then((response: any) => {
-        // })
+        if(props.idExpense){
+            drawerCtx.openItem(props.idExpense)
+        }
+        drawerCtx.updateOnEdit(true)
+        if(!drawerCtx.onEdit){
+            drawerCtx.updateIsOpen(true) 
+        }
     }
 
     return (

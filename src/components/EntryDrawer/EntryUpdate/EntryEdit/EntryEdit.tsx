@@ -1,14 +1,11 @@
-import Title from '../../../common/Title/Title';
 import React, { useContext, useEffect, useState } from 'react';
-
-import { Box, Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput, TextField, Typography } from "@mui/material";
+import { Box, MenuItem, TextField } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
 const useStyles = makeStyles((theme: any) => ({
-
     infoFieldBox: {
         marginTop: 15,
         marginBottom: 15,
@@ -19,7 +16,7 @@ const useStyles = makeStyles((theme: any) => ({
     }
   }));
 
-export default function EntryInfoEdit(props: any) {
+export default function EntryEdit(props: any) {
 
     const classes = useStyles();
     const entry = props.entry
@@ -43,7 +40,6 @@ export default function EntryInfoEdit(props: any) {
                 <LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
                         value={entry.ymd}
-                        
                         onChange={(newValue: any) => {
                             setDate(newValue);
                         }}

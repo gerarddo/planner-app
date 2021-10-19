@@ -1,12 +1,12 @@
 import React, { useContext, useRef, useState } from 'react';
-import {EntryControllerApi} from '../../../../api'
+import {ExpenseControllerApi} from '../../../../api'
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
-import EntriesDrawerContext from '../../../../store/entries-drawer-context';
+import ExpensesDrawerContext from '../../../../store/expenses-drawer-context';
 import CloseIcon from '@mui/icons-material/Close';
-export default function CancelEditEntryButton(props: any) {
+export default function CancelEditExpenseButton(props: any) {
 
-    const drawerCtx = useContext(EntriesDrawerContext);
+    const drawerCtx = useContext(ExpensesDrawerContext);
 
     function onHandleCancel(){
         drawerCtx.updateOnEdit(false)

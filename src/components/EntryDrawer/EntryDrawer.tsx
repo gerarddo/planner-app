@@ -7,18 +7,44 @@ import EntryInfo from './EntryInfo/EntryInfo'
 import CancelSharpIcon from '@mui/icons-material/CancelSharp';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { Box, Button } from "@mui/material";
+import { Box, Button, Paper } from "@mui/material";
 import UnlinkList from './UnlinkList/UnlinkList';
 import EntriesDrawerContext from '../../store/entries-drawer-context';
-
+import { IEntry } from '../../api';
+import EntryUpdate from './EntryUpdate/EntryUpdate';
+import CloseEntryDrawerButton from './CloseEntryDrawerButton/CloseEntryDrawerButton'
 
 export default function EntryDrawer(props: any) {
-
+  
   const drawerCtx = useContext(EntriesDrawerContext);
+
+  const mockEntry: IEntry = {
+    id: '',
+    ymd: '',
+    tags: [],
+    description: '',
+    method: '',
+    inflow: 0,
+    outflow: 0
+  }
+
   const [drawerState, setDrawerState] = React.useState(false);
-  const [entry, setEntry] = useState({})
-  type Anchor = 'top' | 'left' | 'bottom' | 'right';
-  const anchor: Anchor = 'bottom'
+  const [entry, setEntry] = useState(mockEntry)
+  const [onUpdate, setOnUpdate] =  useState(false)
+  const [flows, setFlows] = useState(0)
+
+  useEffect(() => {  
+
+    // current entry state
+    const currentEntry: IEntry = drawerCtx.item
+    setEntry(currentEntry)
+    setFlows(currentEntry.outflow > 0 ? -currentEntry.outflow  : currentEntry.outflow);
+
+    // current drawer state
+    setDrawerState(drawerCtx.isOpen) // opens drawer
+    setOnUpdate(drawerCtx.onUpdate) // toggles entryInfo or entryUpdate
+
+  }, [drawerCtx.isOpen, drawerCtx.onUpdate]);
 
   const useStyles = makeStyles((theme: any) => ({
     list: {
@@ -41,58 +67,45 @@ export default function EntryDrawer(props: any) {
     }
   }));
 
-  // @ts-ignore
   const classes = useStyles();
 
-  const closeDrawer =( event: React.KeyboardEvent | React.MouseEvent, ) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
-      drawerCtx.updateIsOpen(false)
-      drawerCtx.updateOnEdit(false)
-  };
+  type Anchor = 'top' | 'left' | 'bottom' | 'right';
+  const anchor: Anchor = 'bottom'
 
-  useEffect(() => {      
-      setEntry(drawerCtx.item)
-      setDrawerState(drawerCtx.isOpen)
-  }, [drawerCtx.isOpen]);
+  const conditionalUpdate = () => {
+    if(onUpdate){
+      return (
+        <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 3 }}>
+          <EntryUpdate entry = {entry} flows = {flows}></EntryUpdate>
+        </Box>
+      )
+    } else {
+      return (
+        <div>
+          <EntryInfo entry = {entry}></EntryInfo>
+          <br/>
+          <UnlinkList entry = {entry}></UnlinkList>
+        </div>
+      )
+    }
+  }
 
   return (
-    <Drawer anchor={anchor} open={drawerState} onClose={closeDrawer}>
+    <Drawer anchor={anchor} open={drawerState} 
+    // onClose={closeDrawer}
+    >
       <div
-        className={
-          clsx(
-            classes.list, 
-            {
-              [classes.fullList]: anchor === 'bottom',
-            }
-          )
-        }
+        className={ clsx( classes.list, { [ classes.fullList ]: anchor === 'bottom' } ) }
         role="presentation"
-        // onKeyDown={closeDrawer}
         >
         <br/>
         <Container>
-          <Grid item xs={12} container 
-          // justify="flex-end"
-          >
-            <Box>
-              <Button onClick={closeDrawer} className='closeButton' >
-              <CancelSharpIcon ></CancelSharpIcon>
-              </Button>
-            </Box>
+          <Grid item xs={12} container >
+            <CloseEntryDrawerButton></CloseEntryDrawerButton>
           </Grid>
         </Container>
         <br/>
-          <div>
-            <EntryInfo entry = {entry}></EntryInfo>
-            <br/>
-            <UnlinkList entry = {entry}></UnlinkList>
-          </div>
+          {conditionalUpdate()}
       </div>
     </Drawer>
   );

@@ -55,7 +55,7 @@ export default function ExpensesList(props: any) {
                       <DeleteExpenseButton idExpense={row.id}></DeleteExpenseButton>
                     </Grid>
                     <Grid item>
-                      <EditExpenseButton></EditExpenseButton>
+                      <EditExpenseButton idExpense={row.id}></EditExpenseButton>
                     </Grid>
                   </Grid>
                 </TableCell>

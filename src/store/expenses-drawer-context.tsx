@@ -14,14 +14,18 @@ const mockItem: IExpense = {
 const ExpensesDrawerContext = createContext({
     isOpen: false,
     item: mockItem,
+    onEdit: false,
     updateIsOpen: (isOpen: boolean) => {},
-    openItem: (itemId: string) => {}
+    openItem: (itemId: string) => {},
+    updateOnEdit: (onEdit: boolean) => {}
 })
 
 export function ExpensesDrawerContextProvider(props: any){
 
     const [isOpen, setIsOpen] = useState(false);
     const [item, setItem] = useState(mockItem);
+    const [onEdit, setOnEdit] = useState(false);
+
     const expenseController = new ExpenseControllerApi()
 
     function updateIsOpenHandler(isOpen: boolean){
@@ -30,17 +34,22 @@ export function ExpensesDrawerContextProvider(props: any){
 
     function updateItemByIdHandler(itemId: string){
         expenseController.expenseControllerFindById(itemId).then((item: any) => {
-            console.log('item retrieved')
-            console.log(item)
+
             setItem(item.data)
         })
+    }
+
+    function updateOnEditHandler(onEdit: boolean){
+        setOnEdit(onEdit)
     }
 
     const context = {
         isOpen: isOpen,
         item: item,
+        onEdit: onEdit,
         updateIsOpen: updateIsOpenHandler,
         openItem: updateItemByIdHandler,
+        updateOnEdit: updateOnEditHandler
     };
 
     return <ExpensesDrawerContext.Provider value={context}>{props.children}</ExpensesDrawerContext.Provider>

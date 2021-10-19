@@ -10,6 +10,8 @@ import Grid from '@mui/material/Grid';
 import { Box, Button } from "@mui/material";
 import LinkList from './LinkList/LinkList';
 import ExpensesDrawerContext from '../../store/expenses-drawer-context';
+import { IExpense } from '../../api';
+import ExpenseEdit from './ExpenseEdit/ExpenseEdit';
 
 
 export default function ExpenseDrawer(props: any) {
@@ -17,6 +19,9 @@ export default function ExpenseDrawer(props: any) {
   const drawerCtx = useContext(ExpensesDrawerContext);
   const [drawerState, setDrawerState] = React.useState(false);
   const [expense, setExpense] = useState({})
+  const [flows, setFlows] = useState(0)
+  const [onEdit, setOnEdit] =  useState(false)
+
   type Anchor = 'top' | 'left' | 'bottom' | 'right';
   const anchor: Anchor = 'bottom'
 
@@ -57,8 +62,37 @@ export default function ExpenseDrawer(props: any) {
 
   useEffect(() => {      
       setExpense(drawerCtx.item)
+
+      const newExpense: IExpense = drawerCtx.item
+      setExpense(newExpense)
+      if(newExpense.outflow > 0){
+        setFlows( -newExpense.outflow )
+      } else {
+        setFlows( newExpense.inflow )
+      }
+
       setDrawerState(drawerCtx.isOpen)
-  }, [drawerCtx.isOpen]);
+      setOnEdit(drawerCtx.onEdit)
+
+  }, [drawerCtx.isOpen, drawerCtx.onEdit]);
+
+  const conditionalEdit = () => {
+    if(onEdit){
+      return (
+        <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 3 }}>
+          <ExpenseEdit expense = {expense} flows = {flows}></ExpenseEdit>
+        </Box>
+      )
+    } else {
+      return (
+        <div>
+        <ExpenseInfo expense = {expense}></ExpenseInfo>
+        <br/>
+        <LinkList expense = {expense}></LinkList>
+      </div>
+      )
+    }
+  }
 
   return (
     <Drawer anchor={anchor} open={drawerState} onClose={closeDrawer}>
@@ -87,11 +121,7 @@ export default function ExpenseDrawer(props: any) {
           </Grid>
         </Container>
         <br/>
-          <div>
-            <ExpenseInfo expense = {expense}></ExpenseInfo>
-            <br/>
-            <LinkList expense = {expense}></LinkList>
-          </div>
+        {conditionalEdit()}
       </div>
     </Drawer>
   );

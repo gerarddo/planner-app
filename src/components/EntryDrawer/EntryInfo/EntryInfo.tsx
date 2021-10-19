@@ -1,29 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import CalendarIcon from '../../common/CalendarIcon/CalendarIcon';
-import Title from '../../common/Title/Title';
-import Chip from '@mui/material/Chip';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import EntriesDrawerContext from '../../../store/entries-drawer-context';
 import { EntryControllerApi, IEntry, IEntryPartial } from '../../../api';
-import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
-import { Box, Button, Card, CardContent } from '@mui/material';
-import AddTagButton from '../../common/AddTagButton/AddTagButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditTagList from '../../common/EditTagList/EditTagList';
 import DeleteEntryButton from '../../common/DeleteEntryButton/DeleteEntryButton';
 import EditEntryButton from '../../common/EditEntryButton/EditEntryButton';
 import EntryInfoDetail from './EntryInfoDetail/EntryInfoDetail';
-import EntryInfoEdit from './EntryInfoEdit/EntryInfoEdit';
-import CancelEditEntryButton from './CancelEditEntryButton/CancelEditEntryButton';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -78,8 +63,8 @@ export default function EntryInfo(props: any) {
   const [entry, setEntry] = useState(mockEntry)
   const [flows, setFlows] = useState(0)
   const [tags, setTags] = useState(mockTags)
-  const [onEdit, setOnEdit] =  useState(false)
-  const [date, setDate] = React.useState('');
+  // const [onEdit, setOnEdit] =  useState(false)
+  // const [date, setDate] = React.useState('');
 
   // TODO: to get the current EntryInfo entry might be more meaningful to retrieve from EntriesDetailContext
   const drawerCtx = useContext(EntriesDrawerContext);
@@ -95,11 +80,11 @@ export default function EntryInfo(props: any) {
     if(drawerCtx.item.tags){
       setTags(drawerCtx.item.tags)
     } 
-    if(drawerCtx.item.ymd){
-      setDate(drawerCtx.item.ymd)
-    }
-    setOnEdit(drawerCtx.onEdit)
-  }, [drawerCtx.item, drawerCtx.onEdit]);
+    // if(drawerCtx.item.ymd){
+    //   setDate(drawerCtx.item.ymd)
+    // }
+    // setOnEdit(drawerCtx.onEdit)
+  }, [drawerCtx.item, drawerCtx.onUpdate]);
 
   const handleDelete = ( )=> {
     drawerCtx.updateIsOpen(false)

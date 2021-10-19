@@ -68,7 +68,7 @@ export default function ExpenseInfo(props: any) {
   const [flows, setFlows] = useState(0)
 
   // TODO: to get the current EntryInfo entry might be more meaningful to retrieve from EntriesDetailContext
-  const drawerCtx = useContext(ExpensesDrawerContext);
+  const drawerCtx = useContext(ExpensesDrawerContext); 
 
   useEffect(() => {    
     const newExpense: IExpense = drawerCtx.item
@@ -96,7 +96,7 @@ export default function ExpenseInfo(props: any) {
                 </Grid>
                 <Grid item xs={1}>
                   <DeleteExpenseButton callback={handleDelete} idExpense={expense.id}></DeleteExpenseButton>
-                  <EditExpenseButton></EditExpenseButton>
+                  <EditExpenseButton idExpense={expense.id}></EditExpenseButton>
                 </Grid>
             </Grid>
             <Grid item xs={5}>

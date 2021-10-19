@@ -7,22 +7,22 @@ export default function EditEntryButton(props: any) {
 
     const drawerCtx = useContext(EntriesDrawerContext);
 
-    function onHandleEdit(){
+    function onHandleCreate(){
         if(props.idEntry){
             drawerCtx.openItem(props.idEntry)
         }
-        drawerCtx.updateOnEdit(true)
-        if(!drawerCtx.onEdit){
+        drawerCtx.updateOnUpdate(true)
+        if(!drawerCtx.onUpdate){
             drawerCtx.updateIsOpen(true) 
         }
     }
 
     return (
         <div>
-            <IconButton aria-label="delete" onClick={onHandleEdit}>
+            <IconButton aria-label="delete" onClick={onHandleCreate}>
                 <EditIcon />
             </IconButton>
         </div>
     );
-  }
+}
   
