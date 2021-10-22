@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import CalendarIcon from '../../common/CalendarIcon/CalendarIcon';
-import Title from '../../common/Title/Title';
 import { IExpense } from '../../../api';
 import ExpensesDrawerContext from '../../../store/expenses-drawer-context';
 import EditTagList from '../../common/EditTagList/EditTagList';
@@ -61,29 +58,28 @@ export default function ExpenseInfo(props: any) {
     inflow: 0,
     outflow: 0
   }
+  const mockTags: string[] = []
 
-  // @ts-ignore
   const classes = useStyles();
   const [expense, setExpense] = useState(mockExpense)
   const [flows, setFlows] = useState(0)
+  const [tags, setTags] = useState(mockTags)
 
-  // TODO: to get the current EntryInfo entry might be more meaningful to retrieve from EntriesDetailContext
+  // TODO: to get the current ExpenseInfo entry might be more meaningful to retrieve from ExpensesDetailContext
   const drawerCtx = useContext(ExpensesDrawerContext); 
 
   useEffect(() => {    
     const newExpense: IExpense = drawerCtx.item
     setExpense(newExpense)
-    if(newExpense.outflow > 0){
-      setFlows( -newExpense.outflow )
-    } else {
-      setFlows( newExpense.inflow )
-    }
-  }, [drawerCtx.item]);
+    setFlows(newExpense.outflow > 0 ? -newExpense.outflow : newExpense.inflow)
+    if(drawerCtx.item.tags){
+      setTags(drawerCtx.item.tags)
+    } 
+  }, [drawerCtx.item, drawerCtx.onUpdate]);
 
   const handleDelete = ( )=> {
     drawerCtx.updateIsOpen(false)
   }
-
 
   return (
     <React.Fragment>

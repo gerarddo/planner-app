@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import EntriesDrawerContext from '../../../store/entries-drawer-context';
-import { EntryControllerApi, IEntry, IEntryPartial } from '../../../api';
+import { IEntry } from '../../../api';
 import EditTagList from '../../common/EditTagList/EditTagList';
 import DeleteEntryButton from '../../common/DeleteEntryButton/DeleteEntryButton';
 import EditEntryButton from '../../common/EditEntryButton/EditEntryButton';
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 export default function EntryInfo(props: any) {
+
   const mockEntry: IEntry = {
     id: '',
     ymd: '',
@@ -63,8 +64,6 @@ export default function EntryInfo(props: any) {
   const [entry, setEntry] = useState(mockEntry)
   const [flows, setFlows] = useState(0)
   const [tags, setTags] = useState(mockTags)
-  // const [onEdit, setOnEdit] =  useState(false)
-  // const [date, setDate] = React.useState('');
 
   // TODO: to get the current EntryInfo entry might be more meaningful to retrieve from EntriesDetailContext
   const drawerCtx = useContext(EntriesDrawerContext);
@@ -72,18 +71,10 @@ export default function EntryInfo(props: any) {
   useEffect(() => {    
     const newEntry: IEntry = drawerCtx.item
     setEntry(newEntry)
-    if(newEntry.outflow > 0){
-      setFlows( -newEntry.outflow )
-    } else {
-      setFlows( newEntry.inflow )
-    }
+    setFlows(newEntry.outflow > 0 ? -newEntry.outflow : newEntry.inflow)
     if(drawerCtx.item.tags){
       setTags(drawerCtx.item.tags)
     } 
-    // if(drawerCtx.item.ymd){
-    //   setDate(drawerCtx.item.ymd)
-    // }
-    // setOnEdit(drawerCtx.onEdit)
   }, [drawerCtx.item, drawerCtx.onUpdate]);
 
   const handleDelete = ( )=> {
@@ -101,7 +92,7 @@ export default function EntryInfo(props: any) {
                 </Grid>
                 <Grid item xs={1}>
                   <DeleteEntryButton callback={handleDelete} idEntry={entry.id}></DeleteEntryButton>
-                  <EditEntryButton></EditEntryButton>
+                  <EditEntryButton idEntry={entry.id}></EditEntryButton>
                 </Grid>
             </Grid>
             <Grid item xs={5}>

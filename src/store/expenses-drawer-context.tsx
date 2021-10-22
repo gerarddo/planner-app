@@ -14,17 +14,21 @@ const mockItem: IExpense = {
 const ExpensesDrawerContext = createContext({
     isOpen: false,
     item: mockItem,
-    onEdit: false,
+    onUpdate: false,
+    onUpdateCase: 'create',
     updateIsOpen: (isOpen: boolean) => {},
     openItem: (itemId: string) => {},
-    updateOnEdit: (onEdit: boolean) => {}
+    updateItem: (item: IExpense) => {},
+    updateOnUpdate: (onUpdate: boolean) => {},
+    updateOnUpdateCase: (onUpdateCase: string) => {}
 })
 
 export function ExpensesDrawerContextProvider(props: any){
 
     const [isOpen, setIsOpen] = useState(false);
     const [item, setItem] = useState(mockItem);
-    const [onEdit, setOnEdit] = useState(false);
+    const [onUpdate, setOnUpdate] = useState(false);
+    const [onUpdateCase, setOnUpdateCase] = useState('create');
 
     const expenseController = new ExpenseControllerApi()
 
@@ -34,22 +38,33 @@ export function ExpensesDrawerContextProvider(props: any){
 
     function updateItemByIdHandler(itemId: string){
         expenseController.expenseControllerFindById(itemId).then((item: any) => {
-
             setItem(item.data)
         })
     }
 
-    function updateOnEditHandler(onEdit: boolean){
-        setOnEdit(onEdit)
+    function updateItemHandler(item: IEntry){
+        setItem(item)
     }
+    
+    function updateOnUpdateHandler(onUpdate: boolean){
+        setOnUpdate(onUpdate)
+    }
+
+    function updateOnUpdateCaseHandler(onUpdateCase: string){
+        setOnUpdateCase(onUpdateCase)
+    }
+
 
     const context = {
         isOpen: isOpen,
         item: item,
-        onEdit: onEdit,
+        onUpdate: onUpdate,
+        onUpdateCase: onUpdateCase,
         updateIsOpen: updateIsOpenHandler,
         openItem: updateItemByIdHandler,
-        updateOnEdit: updateOnEditHandler
+        updateItem: updateItemHandler,
+        updateOnUpdate: updateOnUpdateHandler,
+        updateOnUpdateCase: updateOnUpdateCaseHandler
     };
 
     return <ExpensesDrawerContext.Provider value={context}>{props.children}</ExpensesDrawerContext.Provider>

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, MenuItem, TextField } from "@mui/material";
+import { Box, Grid, MenuItem, Paper, TextField } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-
+import CancelExpenseEditButton from '../CancelExpenseEditButton/CancelExpenseEditButton';
 const useStyles = makeStyles((theme: any) => ({
     infoFieldBox: {
         marginTop: 15,
@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme: any) => ({
       },
   }));
 
-export default function EntryEdit(props: any) {
+export default function ExpenseEdit(props: any) {
 
     const classes = useStyles();
-    const entry = props.entry
+    const expense = props.expense
     const flows = props.flows
     const [date, setDate] = React.useState('');
 
@@ -45,7 +45,7 @@ export default function EntryEdit(props: any) {
             <Box className={classes.infoFieldBox}>
                 <LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
-                        value={entry.ymd}
+                        value={expense.ymd}
                         onChange={(newValue: any) => {
                             // setDate(newValue);
                         }}
@@ -54,7 +54,7 @@ export default function EntryEdit(props: any) {
                 </LocalizationProvider>
             </Box>
             <Box className={classes.infoFieldBox}>
-                <TextField className={classes.infoFieldEdit} id="outlined-basic" label="Outlined" variant="outlined" value={entry.description}/>
+                <TextField className={classes.infoFieldEdit} id="outlined-basic" label="Outlined" variant="outlined" value={expense.description}/>
             </Box>
             <Box className={classes.infoFieldBox}>
                 <TextField
@@ -62,7 +62,7 @@ export default function EntryEdit(props: any) {
                     id="outlined-select-currency"
                     select
                     label="Select"
-                    value={entry.method}
+                    value={expense.method}
                     //   onChange={handleChange}
                 >
                     {methodOptions.map((option) => (

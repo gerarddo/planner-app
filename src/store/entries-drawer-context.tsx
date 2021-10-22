@@ -15,10 +15,12 @@ const EntriesDrawerContext = createContext({
     isOpen: false,
     item: mockItem,
     onUpdate: false,
+    onUpdateCase: 'create',
     updateIsOpen: (isOpen: boolean) => {},
     openItem: (itemId: string) => {},
     updateItem: (item: IEntry) => {},
-    updateOnUpdate: (onUpdate: boolean) => {}
+    updateOnUpdate: (onUpdate: boolean) => {},
+    updateOnUpdateCase: (onUpdateCase: string) => {}
 })
 
 export function EntriesDrawerContextProvider(props: any){
@@ -26,6 +28,7 @@ export function EntriesDrawerContextProvider(props: any){
     const [isOpen, setIsOpen] = useState(false);
     const [item, setItem] = useState(mockItem);
     const [onUpdate, setOnUpdate] = useState(false);
+    const [onUpdateCase, setOnUpdateCase] = useState('create');
 
     const entryController = new EntryControllerApi()
 
@@ -47,14 +50,21 @@ export function EntriesDrawerContextProvider(props: any){
         setOnUpdate(onUpdate)
     }
 
+    function updateOnUpdateCaseHandler(onUpdateCase: string){
+        setOnUpdateCase(onUpdateCase)
+    }
+
+
     const context = {
         isOpen: isOpen,
         item: item,
         onUpdate: onUpdate,
+        onUpdateCase: onUpdateCase,
         updateIsOpen: updateIsOpenHandler,
         openItem: updateItemByIdHandler,
         updateItem: updateItemHandler,
-        updateOnUpdate: updateOnUpdateHandler
+        updateOnUpdate: updateOnUpdateHandler,
+        updateOnUpdateCase: updateOnUpdateCaseHandler
     };
 
     return <EntriesDrawerContext.Provider value={context}>{props.children}</EntriesDrawerContext.Provider>

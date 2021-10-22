@@ -12,7 +12,7 @@ export default function SaveEntryEdit(props: any) {
 
 
     function onHandleSave(){
-        drawerCtx.updateOnEdit(false)
+        drawerCtx.updateOnUpdate(false)   
     }
 
     return (

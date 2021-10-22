@@ -2,7 +2,6 @@ import Title from '../../../common/Title/Title';
 import { Grid, Typography } from "@mui/material";
 import CalendarIcon from '../../../common/CalendarIcon/CalendarIcon';
 
-
 export default function ExpenseInfoDetail(props: any) {
 
     const expense = props.expense

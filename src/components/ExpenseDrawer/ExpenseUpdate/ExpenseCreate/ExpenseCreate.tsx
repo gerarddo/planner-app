@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, MenuItem, TextField } from "@mui/material";
+import Container from '@mui/material/Container';
+
+import { Box, Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import { IEntry, IExpense } from '../../../../api';
 
 const useStyles = makeStyles((theme: any) => ({
     infoFieldBox: {
@@ -13,20 +16,22 @@ const useStyles = makeStyles((theme: any) => ({
     },
     infoFieldEdit: {
         width: '100%' 
-    },
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column'
-      },
+    }
   }));
 
-export default function EntryEdit(props: any) {
+export default function ExpenseCreate(props: any) {
 
     const classes = useStyles();
-    const entry = props.entry
-    const flows = props.flows
+    const expense: IExpense = {
+        id: '',
+        ymd: '',
+        tags: [],
+        description: '',
+        method: '',
+        inflow: 0,
+        outflow: 0
+    }
+    const flows = 0
     const [date, setDate] = React.useState('');
 
     const methodOptions = [
@@ -45,16 +50,17 @@ export default function EntryEdit(props: any) {
             <Box className={classes.infoFieldBox}>
                 <LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
-                        value={entry.ymd}
+                        value={expense.ymd}
+                        
                         onChange={(newValue: any) => {
-                            // setDate(newValue);
+                            setDate(newValue);
                         }}
                         renderInput={(params: any) => <TextField {...params} className={classes.infoFieldEdit}/>}
                     />
                 </LocalizationProvider>
             </Box>
             <Box className={classes.infoFieldBox}>
-                <TextField className={classes.infoFieldEdit} id="outlined-basic" label="Outlined" variant="outlined" value={entry.description}/>
+                <TextField className={classes.infoFieldEdit} id="outlined-basic" label="Outlined" variant="outlined" value={expense.description}/>
             </Box>
             <Box className={classes.infoFieldBox}>
                 <TextField
@@ -62,7 +68,7 @@ export default function EntryEdit(props: any) {
                     id="outlined-select-currency"
                     select
                     label="Select"
-                    value={entry.method}
+                    value={expense.method}
                     //   onChange={handleChange}
                 >
                     {methodOptions.map((option) => (

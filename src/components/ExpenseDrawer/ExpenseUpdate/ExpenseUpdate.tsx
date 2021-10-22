@@ -1,11 +1,11 @@
 
-import EntryEdit from "./EntryEdit/EntryEdit"
 import { makeStyles } from '@mui/styles';
-import CancelEditEntryButton from "./CancelEntryEditButton/CancelEntryEditButton";
+import CancelExpenseEditButton from "./CancelExpenseEditButton/CancelExpenseEditButton";
 import { Grid, Paper } from "@mui/material";
-import EntryCreate from "./EntryCreate/EntryCreate";
-import CancelEntryCreateButton from "./CancelEntryCreateButton/CancelEntryCreateButton";
-export default function EntryUpdate(props: any) {
+import ExpenseCreate from "./ExpenseCreate/ExpenseCreate";
+import ExpenseEdit from "./ExpenseEdit/ExpenseEdit";
+import CancelExpenseCreateButton from "./CancelExpenseCreateButton/CancelExpenseCreateButton";
+export default function ExpenseUpdate(props: any) {
 
     const useStyles = makeStyles((theme: any) => ({
         paper: {
@@ -18,37 +18,38 @@ export default function EntryUpdate(props: any) {
     
     const classes = useStyles();
 
-    const entry = props.entry
+    const expense = props.expense
     const flows = props.flows
 
-    let title = 'Update entry'
-
-    if (!!entry && !!flows){
-        title = 'Edit entry'
+    let title = 'Update expense'
+    console.log(expense)
+    console.log(flows) 
+    if (!!expense && !!flows){
+        title = 'Edit expense'
     } else {
-        title = 'Create entry'
+        title = 'Create expense'
     }
 
     const conditionalUpdate = () => {
-        if (!!entry && !!flows){
+        if (!!expense && !!flows){
             return (
-                <EntryEdit entry={entry} flows={flows}></EntryEdit>
+                <ExpenseEdit expense={expense} flows={flows}></ExpenseEdit>
             )
         } else {
             return (
-                <EntryCreate></EntryCreate>            
+                <ExpenseCreate></ExpenseCreate>            
             )
         }
     }
 
     const conditionalButton = () => {
-        if (!!entry && !!flows){
+        if (!!expense && !!flows){
             return (
-                <CancelEditEntryButton></CancelEditEntryButton>
+                <CancelExpenseEditButton></CancelExpenseEditButton>
             )
         } else {
             return (
-                <CancelEntryCreateButton></CancelEntryCreateButton>
+                <CancelExpenseCreateButton></CancelExpenseCreateButton>
             )
         }
     }
