@@ -36,11 +36,7 @@ const useStyles = makeStyles((theme: any) => ({
 
 export default function Entries() {
 
-    // const today = new Date()
-    // const pageCount = today.getMonth()+1
     const [fetchMonth, setFetchMonth] = useState(1);
-    // const [page, setPage] = useState(pageCount);
-    // @ts-ignore
     const classes = useStyles();
     const ctx = useContext(EntriesContext);
     const menuCtx = useContext(MenuDrawerContext);
