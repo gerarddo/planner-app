@@ -74,9 +74,6 @@ export default function ExpenseDrawer(props: any) {
   const anchor: Anchor = 'bottom'
 
   const conditionalCreateOrEdit = () => {
-    console.log(expense)
-    console.log(onUpdate)
-    console.log(onUpdateCase)
     if(onUpdateCase == 'create'){
       return (
         <ExpenseUpdate></ExpenseUpdate>

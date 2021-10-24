@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Container from '@mui/material/Container';
-
-import { Box, Grid, InputAdornment, InputLabel, MenuItem, OutlinedInput, Paper, TextField, Typography } from "@mui/material";
+import React, { useContext } from 'react';
+import { Box, MenuItem, TextField } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -9,6 +7,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import { IEntry } from '../../../../api';
 import SubmitEntryCreateButton from './SubmitEntryCreateButton/SubmitEntryCreateButton'
 import EntriesUpdateContext  from '../../../../store/entries-update-context';
+
 
 const useStyles = makeStyles((theme: any) => ({
     infoFieldBox: {
@@ -20,7 +19,6 @@ const useStyles = makeStyles((theme: any) => ({
         width: '100%' 
     }
   }));
-
 
 let getToday = () => {
     let pad2 = (n: any) => {return (n < 10 ? '0' : '') + n};
