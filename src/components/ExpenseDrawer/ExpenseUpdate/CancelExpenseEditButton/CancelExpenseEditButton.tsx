@@ -8,6 +8,7 @@ export default function CancelExpenseEditButton(props: any) {
 
     function onHandleCancel(){
         drawerCtx.updateOnUpdate(false)
+        drawerCtx.updateOnUpdateCase('create') // default to create
     }
 
     return (

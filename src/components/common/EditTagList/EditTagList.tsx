@@ -66,7 +66,9 @@ export default function EditTagList(props: any) {
     const updateTagCall = (newTagList: string[], beingAdded: boolean) =>{
         if (props.type == TYPE_ENTRY && !!item.id ){
             controller.entryControllerUpdateTagsById(item.id,newTagList).then((data: any) => {
-                entriesDrawerCtx.openItem(item.id)
+                controller.entryControllerFindById(item.id).then((response: any) => {
+                    entriesDrawerCtx.updateItem(response.data)
+                })
             })
         } else  if (props.type == TYPE_EXPENSE && !!item.id){
             controller.expenseControllerUpdateTagsById(item.id,newTagList).then((data: any) => {

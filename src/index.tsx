@@ -11,8 +11,9 @@ import {ExpensesDrawerContextProvider} from './store/expenses-drawer-context';
 import {MenuDrawerContextProvider} from './store/menu-drawer-context'
 import {EntriesDrawerContextProvider} from './store/entries-drawer-context';
 import {EntriesDetailContextProvider} from './store/entries-detail-context';
+import { EntriesUpdateContextProvider } from './store/entries-update-context';
 import { ThemeProvider, createTheme } from '@mui/material';
-
+import { ExpensesUpdateContextProvider } from './store/expenses-update-context';
 const theme = createTheme({})
 
 ReactDOM.render(
@@ -22,15 +23,19 @@ ReactDOM.render(
       <EntriesContextProvider>
         <ExpensesDetailContextProvider>
           <ExpensesDrawerContextProvider>
-              <EntriesDrawerContextProvider>
-                <EntriesDetailContextProvider>
-                  <MenuDrawerContextProvider>
-                    <React.StrictMode>
-                      <App />
-                    </React.StrictMode>
-                  </MenuDrawerContextProvider>
-                </EntriesDetailContextProvider>
-              </EntriesDrawerContextProvider>
+            <EntriesDrawerContextProvider>
+              <EntriesDetailContextProvider>
+                <EntriesUpdateContextProvider>
+                  <ExpensesUpdateContextProvider>
+                    <MenuDrawerContextProvider>
+                      <React.StrictMode>
+                        <App />
+                      </React.StrictMode>
+                    </MenuDrawerContextProvider>
+                  </ExpensesUpdateContextProvider>
+                </EntriesUpdateContextProvider>
+              </EntriesDetailContextProvider>
+            </EntriesDrawerContextProvider>
           </ExpensesDrawerContextProvider>
         </ExpensesDetailContextProvider>
       </EntriesContextProvider>

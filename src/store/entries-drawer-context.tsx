@@ -17,7 +17,7 @@ const EntriesDrawerContext = createContext({
     onUpdate: false,
     onUpdateCase: 'create',
     updateIsOpen: (isOpen: boolean) => {},
-    openItem: (itemId: string) => {},
+    // openItem: (itemId: string) => {},
     updateItem: (item: IEntry) => {},
     updateOnUpdate: (onUpdate: boolean) => {},
     updateOnUpdateCase: (onUpdateCase: string) => {}
@@ -61,10 +61,10 @@ export function EntriesDrawerContextProvider(props: any){
         onUpdate: onUpdate,
         onUpdateCase: onUpdateCase,
         updateIsOpen: updateIsOpenHandler,
-        openItem: updateItemByIdHandler,
+        // openItem: updateItemByIdHandler,
         updateItem: updateItemHandler,
         updateOnUpdate: updateOnUpdateHandler,
-        updateOnUpdateCase: updateOnUpdateCaseHandler
+        updateOnUpdateCase: updateOnUpdateCaseHandler 
     };
 
     return <EntriesDrawerContext.Provider value={context}>{props.children}</EntriesDrawerContext.Provider>

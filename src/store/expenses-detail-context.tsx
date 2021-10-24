@@ -10,7 +10,7 @@ const ExpensesDetailContext = createContext({
     updateIsFetching: (isFetching: boolean) => {},
     updateFetchMonth: (fetchMonth: number) => {},
     updateFetchYear: (fetchYear: number) => {},
-    updateEntries: () => {}
+    updateEntries: (entries: any) => {}
 })
 
 export function ExpensesDetailContextProvider(props: any){
@@ -35,14 +35,15 @@ export function ExpensesDetailContextProvider(props: any){
         setFetchYear(fetchYear)
     }
 
-    function updateEntriesHandler(){
-        setIsFetching(true)
-        if(fetchYear !== 0 && fetchMonth !== 0){
-            entryController.entryControllerFind(fetchYear, fetchMonth).then((response: any) => {
-                setEntries(response.data)
-                setIsFetching(false)
-            });
-        }
+    function updateEntriesHandler(entries: any){
+        // setIsFetching(true)
+        // if(fetchYear !== 0 && fetchMonth !== 0){
+        //     entryController.entryControllerFind(fetchYear, fetchMonth).then((response: any) => {
+        //         setEntries(response.data)
+        //         setIsFetching(false)
+        //     });
+        // }
+        setEntries(entries)
     }
 
     const context = {

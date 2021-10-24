@@ -6,7 +6,9 @@ import { makeStyles } from '@mui/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-import { IEntry, IExpense } from '../../../../api';
+import { IExpense } from '../../../../api';
+import SubmitExpenseCreateButton from './SubmitExpenseCreateButton/SubmitExpenseCreateButton'
+import ExpensesUpdateContext  from '../../../../store/expenses-update-context';
 
 const useStyles = makeStyles((theme: any) => ({
     infoFieldBox: {
@@ -19,20 +21,37 @@ const useStyles = makeStyles((theme: any) => ({
     }
   }));
 
+
+let getToday = () => {
+    let pad2 = (n: any) => {return (n < 10 ? '0' : '') + n};
+    let today = new Date(),
+        month = pad2(today.getMonth()+1),//months (0-11)
+        day   = pad2(today.getDate()), //day (1-31)
+        year  = today.getFullYear();        
+    return year+"-"+month+"-"+day;
+}
+
 export default function ExpenseCreate(props: any) {
 
+    const today = getToday()    
     const classes = useStyles();
+    const updateCtx = useContext(ExpensesUpdateContext);
+
     const expense: IExpense = {
         id: '',
-        ymd: '',
+        ymd: today,
         tags: [],
         description: '',
         method: '',
         inflow: 0,
         outflow: 0
     }
-    const flows = 0
-    const [date, setDate] = React.useState('');
+
+    const [date, setDate] = React.useState(expense.ymd);
+    const [description, setDescription] = React.useState(expense.description);
+    const [method, setMethod] = React.useState(expense.method);
+    const [inflows, setInflows] = React.useState(expense.inflow);
+    const [outflows, setOutflows] = React.useState(expense.outflow);
 
     const methodOptions = [
         {
@@ -45,31 +64,52 @@ export default function ExpenseCreate(props: any) {
         }
     ]
 
+
+    const saveInContext = () => {
+        let current = updateCtx.current
+        current.ymd = date
+        current.description = description
+        current.method = method
+        current.inflow = inflows
+        current.outflow = outflows
+        updateCtx.updateCurrent(current)
+    }
+
+    const handleSaveDate = (val: any) => {  setDate(val); saveInContext();}
+    const handleSaveDescription = (ev: any) => {  setDescription(ev.target.value); saveInContext();}
+    const handleSaveMethod = (ev: any) => {  setMethod(ev.target.value); saveInContext();}
+    const handleSaveInflows = (ev: any) => {  setInflows(parseInt(ev.target.value)); saveInContext();}
+    const handleSaveOutflows = (ev: any) => {  setOutflows(parseInt(ev.target.value)); saveInContext();}
+
     return (
         <Box >
             <Box className={classes.infoFieldBox}>
                 <LocalizationProvider dateAdapter={AdapterDateFns} >
                     <DatePicker
-                        value={expense.ymd}
-                        
-                        onChange={(newValue: any) => {
-                            setDate(newValue);
-                        }}
+                        value={date}
+                        onChange={handleSaveDate}
                         renderInput={(params: any) => <TextField {...params} className={classes.infoFieldEdit}/>}
                     />
                 </LocalizationProvider>
             </Box>
             <Box className={classes.infoFieldBox}>
-                <TextField className={classes.infoFieldEdit} id="outlined-basic" label="Outlined" variant="outlined" value={expense.description}/>
+                <TextField 
+                    className={classes.infoFieldEdit} 
+                    id="outlined-basic" 
+                    label="Description" 
+                    variant="outlined" 
+                    value={description}
+                    onChange={handleSaveDescription}
+                    />
             </Box>
             <Box className={classes.infoFieldBox}>
                 <TextField
                     className={classes.infoFieldEdit}
                     id="outlined-select-currency"
                     select
-                    label="Select"
-                    value={expense.method}
-                    //   onChange={handleChange}
+                    label="Payment method"
+                    value={method}
+                    onChange={handleSaveMethod}
                 >
                     {methodOptions.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -79,8 +119,29 @@ export default function ExpenseCreate(props: any) {
                 </TextField>
             </Box >
             <Box className={classes.infoFieldBox}>
-                <TextField className={classes.infoFieldEdit} id="outlined-basic" label="Amount" variant="outlined" value={flows} />
+                <TextField 
+                    className={classes.infoFieldEdit} 
+                    id="outlined-basic" 
+                    label="Inflows" 
+                    variant="outlined" 
+                    value={inflows}
+                    type="number"
+                    onChange={handleSaveInflows}
+                />
             </Box>
+            <Box className={classes.infoFieldBox}>
+                <TextField 
+                    className={classes.infoFieldEdit} 
+                    id="outlined-basic" 
+                    label="Outflows" 
+                    variant="outlined" 
+                    value={outflows}
+                    type="number"
+                    onChange={handleSaveOutflows}
+                />
+            </Box>
+            <SubmitExpenseCreateButton></SubmitExpenseCreateButton>
         </Box>
+        
     )
 }

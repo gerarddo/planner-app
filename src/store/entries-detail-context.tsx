@@ -1,6 +1,4 @@
 import { createContext, useState} from 'react';
-import { ExpenseControllerApi, IEntry } from '../api'
-import { useContext } from 'react';
 
 const EntriesDetailContext = createContext({
     isFetching: false,

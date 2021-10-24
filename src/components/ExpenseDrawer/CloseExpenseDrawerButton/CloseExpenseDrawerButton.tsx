@@ -17,6 +17,7 @@ export default function CloseExpenseDrawerButton(props: any) {
     }
     drawerCtx.updateIsOpen(false) // close the drawer
     drawerCtx.updateOnUpdate(false) // set to false in case it was true
+    drawerCtx.updateOnUpdateCase('create') // default to create
   };
 
   return (
