@@ -9,22 +9,12 @@ import EntriesContext from '../../store/entries-context';
 import MenuDrawerContext from '../../store/menu-drawer-context';
 import { Grid, Paper } from '@mui/material';
 import EntriesBar from './EntriesBar/EntriesBar'
-import EntriesDownloadButton from './EntriesBar/EntriesDownloadButton/EntriesDownloadButton'
-import EntriesUploadButton from '../Entries/EntriesBar/EntriesUploadButton/EntriesUploadButton';
-import EntriesPagination from './EntriesBar/EntriesPagination/EntriesPagination';
+import EntriesFooter from './EntriesFooter/EntriesFooter';
 function preventDefault(event: any) {
   event.preventDefault();
 }
 
 const useStyles = makeStyles((theme: any) => ({
-  root: {
-    '& > *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
   paper: {
     padding: theme.spacing(0),
     display: 'flex',
@@ -47,22 +37,16 @@ export default function Entries() {
     }, [ctx.fetchMonth]);
 
     return(
-        <React.Fragment>
-          <Paper className={classes.paper}>
-            <EntriesBar></EntriesBar>
-            <Grid container style={{marginTop : 20}}>
-              <br />
-              <EntriesList year={2021} month={fetchMonth}></EntriesList>
-              <div className={classes.seeMore}>
-                  <div className={classes.root}>
-                  </div>
-                  <Link color="primary" href="#" onClick={preventDefault}>
-                  See more Entries 
-                  </Link>
-              </div> 
-              <EntryDrawer></EntryDrawer>
-              </Grid> 
-            </Paper>
-        </React.Fragment>
+      <React.Fragment>
+        <Paper className={classes.paper}>
+          <EntriesBar></EntriesBar>
+          <Grid container style={{marginTop : 20}}>
+            <br />
+            <EntriesList year={2021} month={fetchMonth}></EntriesList>
+            <EntryDrawer></EntryDrawer>
+            </Grid>
+            <EntriesFooter></EntriesFooter>
+          </Paper>
+      </React.Fragment>
     )
 }

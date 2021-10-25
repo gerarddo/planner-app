@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ExpensesContext from '../../../../store/expenses-context';
 
 
-export default function EntriesPagination() {
+export default function ExpensesPagination() {
 
     const today = new Date()
 
@@ -14,14 +14,14 @@ export default function EntriesPagination() {
     const [page, setPage] = useState(pageCount);
     const ctx = useContext(ExpensesContext);
 
-    function monthEntriesUpdate(ev: object, pageNum: number){
+    function monthExpensesUpdate(ev: object, pageNum: number){
         ctx.updateFetchMonth(pageNum - 1)
         setFetchMonth(pageNum - 1)
         setPage(pageNum)
     }
 
     return (
-        <Pagination page={page} count={pageCount} color="secondary" onChange={monthEntriesUpdate}/>
+        <Pagination page={page} count={pageCount} color="secondary" onChange={monthExpensesUpdate}/>
     );
   }
   

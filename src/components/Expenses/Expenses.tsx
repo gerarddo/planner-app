@@ -1,18 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Link from '@mui/material/Link';
 import { makeStyles } from '@mui/styles';
 import { useContext } from 'react';
-import Pagination from '@mui/material/Pagination';
 import ExpensesList from './ExpensesList/ExpensesList';
 import ExpenseDrawer from '../ExpenseDrawer/ExpenseDrawer'
 import ExpensesContext from '../../store/expenses-context';
 import MenuDrawerContext from '../../store/menu-drawer-context';
 import * as XLSX from 'xlsx';
 import { ExpenseControllerApi } from '../../api'
-import { Grid, IconButton, Paper } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/CloudDownloadRounded';
-import { CSVLink, CSVDownload } from "react-csv";
+import { Grid, Paper } from '@mui/material';
+import { CSVLink } from "react-csv";
 import ExpensesBar from './ExpensesBar/ExpensesBar';
+import ExpensesFooter from './ExpensesFooter/ExpensesFooter';
 function preventDefault(event: any) {
   event.preventDefault();
 }
@@ -41,7 +39,7 @@ export default function Expenses() {
     const pageCount = today.getMonth()+1
     const [fetchMonth, setFetchMonth] = useState(1);
     const [page, setPage] = useState(pageCount);
-    // @ts-ignore
+
     const classes = useStyles();
     const ctx = useContext(ExpensesContext);
     const menuCtx = useContext(MenuDrawerContext);
@@ -108,16 +106,9 @@ export default function Expenses() {
             <Grid container style={{marginTop : 20}}>
               <br />
               <ExpensesList year={2021} month={fetchMonth}></ExpensesList>
-              <div className={classes.seeMore}>
-                  <div className={classes.root}>
-
-                  </div>
-                  <Link color="primary" href="#" onClick={preventDefault}>
-                  See more Expenses 
-                  </Link>
-              </div> 
               <ExpenseDrawer></ExpenseDrawer>
               </Grid>
+              <ExpensesFooter></ExpensesFooter>
             </Paper>
         </React.Fragment>
     )
