@@ -4,7 +4,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Title from '../../common/Title/Title';
 import { useContext } from 'react';
 import OpenExpenseDetailButton from '../../common/OpenExpenseDetailButton/OpenExpenseDetailButton';
 import ExpensesContext from '../../../store/expenses-context';
@@ -13,17 +12,17 @@ import DeleteExpenseButton from '../../common/DeleteExpenseButton/DeleteExpenseB
 import { Grid } from '@mui/material';
 import EditExpenseButton from '../../common/EditExpenseButton/EditExpenseButton';
 
-export default function ExpensesList(props: any) {
+export default function ExpensesList() {
 
-  const [expenses, setExpenses] = useState([])
+  const [expensesList, setExpensesList] = useState([])
   const expenseCtx = useContext(ExpensesContext);
 
   useEffect(() => {
-    setExpenses(expenseCtx.expenses)
+    setExpensesList(expenseCtx.expenses)
   }, [expenseCtx.expenses]);
 
   function conditionalComponent(){
-    if(expenses.length == 0){
+    if(expensesList.length == 0){
       return(
         <div>      
           <Divider variant="middle" />
@@ -32,7 +31,6 @@ export default function ExpensesList(props: any) {
       )
     } else {
       return(
-
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -47,7 +45,7 @@ export default function ExpensesList(props: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {expenses.map((row: any) => (
+            {expensesList.map((row: any) => (
               <TableRow key={row.id}>
                 <TableCell>
                   <Grid container>
@@ -79,7 +77,7 @@ export default function ExpensesList(props: any) {
 
   return (
     <React.Fragment>
-          {conditionalComponent()}
-      </React.Fragment>
+      {conditionalComponent()}
+    </React.Fragment>
   );
 }

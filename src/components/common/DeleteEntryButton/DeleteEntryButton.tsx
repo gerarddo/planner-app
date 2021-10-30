@@ -14,7 +14,7 @@ export default function DeleteEntryButton(props: any) {
 
     function onHandleDelete(){
         entryController.entryControllerDeleteById(props.idEntry).then((response: any) => {
-            ctx.updateEntries()
+            ctx.fetchEntriesList()
             if(props.callback){
                 props.callback()
             }

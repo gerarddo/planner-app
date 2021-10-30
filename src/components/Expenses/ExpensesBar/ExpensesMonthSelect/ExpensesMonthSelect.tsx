@@ -1,12 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { MenuItem, Select } from '@mui/material';
-
+import ExpensesContext from '../../../../store/expenses-context';
+import { ExpenseControllerApi } from '../../../../api';
 export default function ExpensesMonthSelect() {
 
-    const [fetchMonth, setFetchMonth] = useState(0)
+    const today = new Date()
+    const ctx = useContext(ExpensesContext);
+    const [fetchMonth, setFetchMonth] = useState(today.getMonth())
 
     const handleChange = (ev: any) => {
         setFetchMonth(ev.target.value)
+        ctx.updateFetchMonth(ev.target.value)
     }
 
     return (
@@ -18,12 +22,18 @@ export default function ExpensesMonthSelect() {
             inputProps={{ 'aria-label': 'Without label' }}
             sx={{ m: 1, minWidth: 120 }}
         >
-            <MenuItem value="">
-                <em>None</em>
-            </MenuItem>
             <MenuItem value={0}>January</MenuItem>
             <MenuItem value={1}>February</MenuItem>
             <MenuItem value={2}>March</MenuItem>
+            <MenuItem value={3}>April</MenuItem>
+            <MenuItem value={4}>May</MenuItem>
+            <MenuItem value={5}>June</MenuItem>
+            <MenuItem value={6}>July</MenuItem>
+            <MenuItem value={7}>August</MenuItem>
+            <MenuItem value={8}>September</MenuItem>
+            <MenuItem value={9}>October</MenuItem>
+            <MenuItem value={10}>November</MenuItem>
+            <MenuItem value={11}>December</MenuItem>
         </Select>
     );
   }

@@ -21,12 +21,13 @@ export default function SubmitEntryEditButton(props: any) {
         let current: any = updateCtx.current
         let currentId = current.id 
 
+        // if(current.id !== undefined){ delete current.id }
         if(current.expenses !== undefined){ delete current.expenses }
         
         entryController.entryControllerReplaceById(currentId, current).then((response: any) => {
             console.log(response)
             drawerCtx.updateItem(current)
-            entriesCtx.updateEntries()
+            entriesCtx.fetchEntriesList()
             drawerCtx.updateOnUpdate(false)
             drawerCtx.updateOnUpdateCase('create') // default to create
         })            

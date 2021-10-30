@@ -26,7 +26,7 @@ export default function SubmitExpenseEditButton(props: any) {
         
         expenseController.expenseControllerReplaceById(currentId, current).then((response: any) => {
             drawerCtx.updateItem(current)
-            expensesCtx.updateExpenses()
+            expensesCtx.fetchExpensesList()
             drawerCtx.updateOnUpdate(false)
             drawerCtx.updateOnUpdateCase('create') // default to create
         })            

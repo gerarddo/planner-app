@@ -15,7 +15,7 @@ export default function ExpensesPagination() {
     const ctx = useContext(ExpensesContext);
 
     function monthExpensesUpdate(ev: object, pageNum: number){
-        ctx.updateFetchMonth(pageNum - 1)
+        // ctx.updateFetchMonth(pageNum - 1)
         setFetchMonth(pageNum - 1)
         setPage(pageNum)
     }

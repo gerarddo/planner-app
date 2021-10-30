@@ -9,7 +9,8 @@ const ExpensesContext = createContext({
     updateIsFetching: (isFetching: boolean) => {},
     updateFetchMonth: (fetchMonth: number) => {},
     updateFetchYear: (fetchYear: number) => {},
-    updateExpenses: () => {}
+    updateExpensesList: (expensesList: string[]) => {},
+    fetchExpensesList: () => {}
 })
 
 export function ExpensesContextProvider(props: any){
@@ -34,7 +35,11 @@ export function ExpensesContextProvider(props: any){
         setFetchYear(fetchYear)
     }
 
-    function updateExpensesHandler(){
+    function updateExpensesListHandler(expensesList: any){
+        setExpenses(expensesList)
+    }
+
+    function fetchExpensesListHandler(){
         setIsFetching(true)
         if(fetchYear !== 0 && fetchMonth !== 0){
             expenseController.expenseControllerFind(fetchYear, fetchMonth).then((response: any) => {
@@ -52,7 +57,8 @@ export function ExpensesContextProvider(props: any){
         updateIsFetching: updateIsFetchingHandler,
         updateFetchMonth: updateFetchMonthHandler,
         updateFetchYear: updateFetchYearHandler,
-        updateExpenses: updateExpensesHandler
+        updateExpensesList: updateExpensesListHandler,
+        fetchExpensesList: fetchExpensesListHandler
     };
 
     return <ExpensesContext.Provider value={context}>{props.children}</ExpensesContext.Provider>

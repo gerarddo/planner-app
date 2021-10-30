@@ -14,7 +14,7 @@ export default function DeleteExpenseButton(props: any) {
 
     function onHandleDelete(){
         expenseController.expenseControllerDeleteById(props.idExpense).then((response: any) => {
-            ctx.updateExpenses()
+            ctx.fetchExpensesList()
             if(props.callback){
                 props.callback()
             }

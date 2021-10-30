@@ -15,7 +15,7 @@ export default function EntriesPagination() {
     const ctx = useContext(EntriesContext);
 
     function monthEntriesUpdate(ev: object, pageNum: number){
-        ctx.updateFetchMonth(pageNum - 1)
+        // ctx.updateFetchMonth(pageNum - 1)
         setFetchMonth(pageNum - 1)
         setPage(pageNum)
     }

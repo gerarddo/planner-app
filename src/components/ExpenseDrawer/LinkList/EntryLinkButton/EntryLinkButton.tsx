@@ -24,13 +24,13 @@ export default function EntryLinkButton(props: any) {
     let linkEntry = function(entryId:any){
         let patch: any = {entryId : entryId}
         expenseController.expenseControllerUpdateById(expenseId,patch).then((data)=>{
-            expenseCtx.updateExpenses()
+            expenseCtx.fetchExpensesList()
         })
     }
 
     let unlinkEntry = function(){
         expenseController.expenseControllerResetLinkById(expenseId).then((data)=>{
-            expenseCtx.updateExpenses()
+            expenseCtx.fetchExpensesList()
         })
     }
 

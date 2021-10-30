@@ -1,6 +1,5 @@
 import { createContext, useState} from 'react';
-import { EntryControllerApi, IEntry } from '../api'
-import { useContext } from 'react';
+import { EntryControllerApi } from '../api'
 
 const EntriesContext = createContext({
     isFetching: false,
@@ -10,7 +9,8 @@ const EntriesContext = createContext({
     updateIsFetching: (isFetching: boolean) => {},
     updateFetchMonth: (fetchMonth: number) => {},
     updateFetchYear: (fetchYear: number) => {},
-    updateEntries: () => {}
+    updateEntriesList: (entriesList: string[]) => {},
+    fetchEntriesList: () => {}
 })
 
 export function EntriesContextProvider(props: any){
@@ -22,7 +22,7 @@ export function EntriesContextProvider(props: any){
     const [fetchMonth, setFetchMonth] =  useState(today.getMonth());
     const [entries, setEntries] = useState([])
     const entryController = new EntryControllerApi()
-
+    
     function updateIsFetchingHandler(isFetching: boolean){
         setIsFetching(isFetching)
     }
@@ -35,7 +35,11 @@ export function EntriesContextProvider(props: any){
         setFetchYear(fetchYear)
     }
 
-    function updateEntriesHandler(){
+    function updateEntriesListHandler(entriesList: any){
+        setEntries(entriesList)
+    }
+
+    function fetchEntriesListHandler(){
         setIsFetching(true)
         if(fetchYear !== 0 && fetchMonth !== 0){
             entryController.entryControllerFind(fetchYear, fetchMonth).then((response: any) => {
@@ -53,7 +57,8 @@ export function EntriesContextProvider(props: any){
         updateIsFetching: updateIsFetchingHandler,
         updateFetchMonth: updateFetchMonthHandler,
         updateFetchYear: updateFetchYearHandler,
-        updateEntries: updateEntriesHandler
+        updateEntriesList: updateEntriesListHandler,
+        fetchEntriesList: fetchEntriesListHandler
     };
 
     return <EntriesContext.Provider value={context}>{props.children}</EntriesContext.Provider>

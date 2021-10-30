@@ -13,7 +13,7 @@ export default function ExpenseUnlinkButton(props: any) {
 
     let unlinkExpense = function(){
         expenseController.expenseControllerResetLinkById(props.expenseId).then((data)=>{
-            expenseCtx.updateExpenses()
+            expenseCtx.fetchExpensesList()
         })
     }
 
