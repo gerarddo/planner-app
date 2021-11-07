@@ -18,8 +18,8 @@ export default function EntriesList(props: any) {
   const entryCtx = useContext(EntriesContext);
 
   useEffect(() => {
-    setEntries(entryCtx.entries)
-  }, [entryCtx.entries]);
+    setEntries(entryCtx.onDisplay)
+  }, [entryCtx.onDisplay]);
 
   function conditionalComponent(){
     if(entries.length == 0){

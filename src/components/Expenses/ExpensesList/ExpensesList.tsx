@@ -18,8 +18,8 @@ export default function ExpensesList() {
   const expenseCtx = useContext(ExpensesContext);
 
   useEffect(() => {
-    setExpensesList(expenseCtx.expenses)
-  }, [expenseCtx.expenses]);
+    setExpensesList(expenseCtx.onDisplay)
+  }, [expenseCtx.onDisplay]);
 
   function conditionalComponent(){
     if(expensesList.length == 0){

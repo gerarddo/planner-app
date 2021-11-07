@@ -1,27 +1,31 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { IconButton, Pagination } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Pagination } from '@mui/material';
 import EntriesContext from '../../../../store/entries-context';
-
+import EntriesPaginationContext from '../../../../store/entries-pagination-context';
+import PaginationService from '../../../common/services/pagination.service';
 
 export default function EntriesPagination() {
 
-    const today = new Date()
+    const [page, setPage] = useState(0);
+    const [numOfPages, setNumOfPages] = useState(0);
 
-    const pageCount = today.getMonth()+1
+    const entryCtx = useContext(EntriesContext);
+    const paginationCtx = useContext(EntriesPaginationContext);
+    const paginationService = new PaginationService();
 
-    const [fetchMonth, setFetchMonth] = useState(1);
-    const [page, setPage] = useState(pageCount);
-    const ctx = useContext(EntriesContext);
+    useEffect(() => {
+        setNumOfPages(Math.ceil(entryCtx.entries.length/paginationCtx.pageSize))
+        setPage(paginationCtx.currentPage)
+        let indices = paginationService.getListRange(entryCtx.entries.length,paginationCtx.pageSize,paginationCtx.currentPage)
+        entryCtx.updateOnDisplayList(entryCtx.entries.slice(indices.indexFloor, indices.indexCeil))
+    }, [entryCtx.entries,paginationCtx.pageSize,paginationCtx.currentPage]);
 
-    function monthEntriesUpdate(ev: object, pageNum: number){
-        // ctx.updateFetchMonth(pageNum - 1)
-        setFetchMonth(pageNum - 1)
-        setPage(pageNum)
+    function currentPageUpdate(ev: object, pageNum: number){
+        paginationCtx.updateCurrentPage(pageNum)
     }
 
     return (
-        <Pagination page={page} count={pageCount} color="secondary" onChange={monthEntriesUpdate}/>
+        <Pagination page={page} count={numOfPages} color="secondary" onChange={currentPageUpdate}/>
     );
   }
   

@@ -14,6 +14,8 @@ import {EntriesDetailContextProvider} from './store/entries-detail-context';
 import { EntriesUpdateContextProvider } from './store/entries-update-context';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { ExpensesUpdateContextProvider } from './store/expenses-update-context';
+import { EntriesPaginationContextProvider } from './store/entries-pagination-context'
+import { ExpensesPaginationContextProvider } from './store/expenses-pagination-context';
 const theme = createTheme({})
 
 ReactDOM.render(
@@ -27,11 +29,15 @@ ReactDOM.render(
               <EntriesDetailContextProvider>
                 <EntriesUpdateContextProvider>
                   <ExpensesUpdateContextProvider>
-                    <MenuDrawerContextProvider>
-                      <React.StrictMode>
-                        <App />
-                      </React.StrictMode>
-                    </MenuDrawerContextProvider>
+                    <EntriesPaginationContextProvider>
+                      <ExpensesPaginationContextProvider>
+                        <MenuDrawerContextProvider>
+                          <React.StrictMode>
+                            <App />
+                          </React.StrictMode>
+                        </MenuDrawerContextProvider>
+                      </ExpensesPaginationContextProvider>
+                    </EntriesPaginationContextProvider>
                   </ExpensesUpdateContextProvider>
                 </EntriesUpdateContextProvider>
               </EntriesDetailContextProvider>

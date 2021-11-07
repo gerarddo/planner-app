@@ -8,6 +8,8 @@ import MenuDrawerContext from '../../store/menu-drawer-context';
 import { Grid, Paper } from '@mui/material';
 import EntriesBar from './EntriesBar/EntriesBar'
 import EntriesFooter from './EntriesFooter/EntriesFooter';
+import { EntryControllerApi } from '../../api';
+import EntriesPaginationContext from '../../store/entries-pagination-context';
 
 const useStyles = makeStyles((theme: any) => ({
   paper: {
@@ -18,16 +20,22 @@ const useStyles = makeStyles((theme: any) => ({
   }
 }));
 
-
 export default function Entries() {
 
     const classes = useStyles();
     const ctx = useContext(EntriesContext);
     const menuCtx = useContext(MenuDrawerContext);
+    const paginationCtx = useContext(EntriesPaginationContext);
+    const entryController = new EntryControllerApi()
 
     useEffect(() => {
         ctx.fetchEntriesList()
         menuCtx.updateTabTitle('All Entries')
+        let today = new Date()
+        entryController.entryControllerCurrentPage(ctx.fetchYear,ctx.fetchMonth,today.getFullYear(),today.getMonth(),today.getDate()).then((response: any) => {
+          paginationCtx.updateCurrentPage(response.data.currentPage)
+        })
+
       }, [ctx.fetchMonth,ctx.fetchYear]);
 
     return(
